@@ -33,7 +33,7 @@ date_default_timezone_set('Asia/Bangkok');
 	$ftppassword="Cy9YbGM";
 	#connect ftp
 	
-	$datelog = date("Y-m-d H:i:s"); $getip=getenv(REMOTE_ADDR); $url = getenv("REQUEST_URI");
+	$datelog = date("Y-m-d H:i:s"); $getip=$_SERVER['REMOTE_ADDR']; $url = getenv("REQUEST_URI");
 	
 	$datelog2=$datelog." | ".$getip;
 		
