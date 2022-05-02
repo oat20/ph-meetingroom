@@ -4,16 +4,17 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
 include("../config.php");
-include("../connect/connect.php");
+//include("../connect/connect.php");
+require_once '../mysqli_connect.php';
 
-$sql = mysql_query("select * from meetingroom_userq
+$sql = mysqli_query($mysqli, "select * from meetingroom_userq
 inner join meetingroom_croom on (meetingroom_userq.cr_id = meetingroom_croom.cr_id)
 inner join meetingroom_objective as objective on (meetingroom_userq.ob_id = objective.ob_id)
 where (meetingroom_userq.Dater >= '$_GET[start]'
 and meetingroom_userq.enddate <= '$_GET[end]')
 and meetingroom_userq.uq_cancel = 'No'
 order by meetingroom_userq.time_in asc");
-while($ob = mysql_fetch_assoc($sql)){
+while($ob = mysqli_fetch_assoc($sql)){
 		$json_data[]=array(
 		"id"=>$ob["uq_id"],
         //"title"=>$ob['name'].' '.$ob['ob_title'].' '.$ob["title"],

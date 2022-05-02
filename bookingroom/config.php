@@ -1,18 +1,23 @@
 <?php
 header ('Content-type: text/html; charset=utf-8');
+
+error_reporting(E_ALL & ~E_NOTICE);
+
 date_default_timezone_set('Asia/Bangkok');
+
+$cf_https = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 	
 	if($_SERVER['HTTP_HOST'] == 'localhost' or $_SERVER['SERVER_ADDR'] == '127.0.0.1'){
-		$livesite='http://'.$_SERVER['HTTP_HOST'].'/www2/prototype/reserveroom/'; //on locahost
+		$livesite= $cf_https.$_SERVER['HTTP_HOST'].'/ph/ph-meetingroom/'; //on locahost
 			#connect database
 		$host="localhost";
 		$userhost="root";
-		$passhost="root";
+		$passhost="12345678";
 		$dbhost="phroom";
 		//$dbhost="demo_phroom";
 		#connect database
 	}else{
-		$livesite="http://".$_SERVER['HTTP_HOST']."/room/"; //onserver
+		$livesite= $cf_https.$_SERVER['HTTP_HOST']."/room/"; //onserver
 		#connect database
 		$host="localhost";
 		$userhost="chakkapan";
@@ -33,7 +38,8 @@ date_default_timezone_set('Asia/Bangkok');
 	$ftppassword="Cy9YbGM";
 	#connect ftp
 	
-	$datelog = date("Y-m-d H:i:s"); $getip=$_SERVER['REMOTE_ADDR']; $url = getenv("REQUEST_URI");
+	$datelog = date("Y-m-d H:i:s"); $getip=$_SERVER['REMOTE_ADDR']; 
+	$url = $_SERVER['REQUEST_URI'];
 	
 	$datelog2=$datelog." | ".$getip;
 		

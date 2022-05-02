@@ -1,17 +1,24 @@
 <?php
 session_start();
 
-include"bookingroom/config.php";
-include("bookingroom/inc/function.php");
-include("bookingroom/connect/connect.php");
+include_once "bookingroom/config.php";
+require_once './bookingroom/mysqli_connect.php';
+include_once("bookingroom/inc/function.php");
+//include_once("bookingroom/connect/connect.php");
 ?>
-
-<title><?php echo $sitename;?></title>
-
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $sitename;?></title>
+    <?php
 include("bookingroom/css-inc.php");
 ?>
-
+</head>
+<body>
+    
 <!-- Static navbar -->
     <?php include("bookingroom/navbar-inc.php");?>
         
@@ -53,10 +60,10 @@ include("bookingroom/css-inc.php");
                     	<legend>รายการห้อง</legend>
                         <div class="row">
                         	<?php
-							$sql = mysql_query("select * from meetingroom_croom
+							$sql = mysqli_query($mysqli, "select * from meetingroom_croom
 							where enable = '1'
 							order by cr_id asc");
-							while($ob = mysql_fetch_assoc($sql)){
+							while($ob = mysqli_fetch_assoc($sql)){
 								//echo '<li class="list-group-item"><div class="activity2" style="background-color:'.$ob["color"].'">'.$ob["name"].'</div></li>';
 								echo '<div class="col-lg-3"><p class="activity2" style="background-color:'.$ob["color"].'"><a href="calendar-room.php?cr_id='.$ob['cr_id'].'">'.$ob["name"].' '.$ob["cr_number"].' '.$ob['location'].' ('.$ob['net'].' ท่าน)</a></p></div>';
 							}
@@ -149,3 +156,5 @@ include("bookingroom/css-inc.php");
     
 });
 </script>
+</body>
+</html>
