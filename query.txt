@@ -1,0 +1,5 @@
+FROM  `jos_users` 
+INNER JOIN user_type ON ( jos_users.usertype = user_type.id ) 
+INNER JOIN organization ON ( jos_users.DeID = organization.DeID ) 
+WHERE user_type.flag =  '1'
+ORDER BY jos_users.registerDate DESC 

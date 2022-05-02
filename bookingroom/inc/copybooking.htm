@@ -1,0 +1,135 @@
+<form id='form1' name='form1' method='post' action='formbooking.php?mode=copy' onsubmit='return checkvalue()' >
+        <?php
+	   	 $cmd = "select * from jos_users,organization 
+		 where jos_users.id='$u'
+		 and jos_users.DeID=organization.DeID";
+		 $result = mysql_query($cmd);
+		$row=mysql_fetch_array($result);
+		$form_deid=$row[DeID];
+		?>
+                        <fieldset>
+        	<legend>ข้อมูลผู้จอง</legend>
+            <table>
+            	  <tr>
+	    <td><strong>ผู้จอง</strong></td>
+	    <td><?php print $row["name"]; ?></td>
+      </tr>
+      <tr>
+      	<td><strong>สังกัด</strong></td>
+        <td><?php print $row["Fname"]; ?></td>
+      </tr>
+      <tr>
+      	<td><strong>โทร.</strong></td>
+        <td><?php print $row["tel"]; ?></td>
+      </tr>
+		</table>
+        </fieldset>
+        <br/>
+
+  <?php
+		$sql4="select * from meetingroom_userq,meetingroom_croom
+		where meetingroom_userq.uq_id='$keyuq_id'
+		and meetingroom_userq.cr_id=meetingroom_croom.cr_id";
+		$rs4=mysql_query($sql4);
+		$ob4=mysql_fetch_array($rs4);
+	?>
+        <fieldset>
+        <legend>รายละเอียดการจอง</legend>
+	<table border="0">
+        <?php if($error_msg != ""){ print "<tr> <td colspan=2><span class=msgalert>".$error_msg."</span></td></tr>"; } ?>
+    <tr> <td><strong>ห้อง<span class="fontred">*</span></strong></td>
+		     <td>
+		   <select name="room" id="room">
+		   	<option value="<?php echo $ob4["cr_id"]; ?>"><?php echo $ob4["name"]; ?></option>
+				<?php
+					$room_category="select cr_id,name,net
+					from meetingroom_croom
+					order by cr_id asc";
+					$rs=mysql_query($room_category);
+					while($ob=mysql_fetch_array($rs)){
+				?>
+				<option value="<?php echo $ob["cr_id"]; ?>"><?php echo $ob["name"]; ?> (<?php print $ob[net]; ?> ท่าน)</option>
+				<?php
+					}
+				?>
+		   </select></td></tr>
+	<tr> 
+    <td><strong>วันที่จองห้อง<span class="fontred">*</span></strong></td>
+	<td>
+	<input type="text" name="startdate" id="sel4" size="20" readonly="true" value="<?php echo $ob4["Dater"]; ?>">
+    <input type="reset" value="เลือกวัน" id='button4' onclick="alert('click');" style="font-family:tahoma; font-size:8pt; font-weight:bold; padding-bottom:3px; padding-top:3px">
+                      <script type="text/javascript">
+		var cal = new Zapatec.Calendar.setup({
+		
+		inputField     :    "sel4",     // id of the input field
+		ifFormat       :    "%Y-%m-%d",     // format of the input field
+		showsTime      :     false,
+		button         :    "button4",  // trigger button (well, IMG in our case)
+		align          :    "Tl"           // alignment (defaults to "Bl")
+		
+		});
+		
+	</script>        </td>
+	<!--<td><font color = "blue"><?php #echo $Date; ?></font> </td> --></tr>
+	<tr> <!--<td><div align="right">เวลา :</div></td><td><font color = "blue"><?php #echo $T_in; ?>.00 - <?php #echo $T_out; ?>.00 น. </font> </td> -->
+	<td><strong>เวลา<span class="fontred">*</span></strong> </td>
+    <td>
+	<font color = "blue">
+    <select name=time_in id="time_in">
+    	<option value="<?php print $ob4[T_in]; ?>"><?php print $ob4[T_in]; ?></option>
+          <?php
+														for($i=00; $i<=18; $i++) 
+													{
+																//$j=$i+1;
+																#$i = sprintf("%02d",$i);
+                      											echo"<option value=$hm_array[$i]>$hm_array[$i]</option>";
+														}
+											?>
+          </select>
+		ถึง
+         <select name=time_out id="time_out">
+       	   <option value="<?php print $ob4[T_out]; ?>"><?php print $ob4[T_out]; ?></option>
+          <?php
+														for($i=00; $i<=18; $i++) 
+													{
+																//$j=$i+1;
+																#$i = sprintf("%02d",$i);
+                      											echo"<option value=$hm_array[$i]>$hm_array[$i]</option>";
+														}
+											?>
+          </select>
+		</font> </td>
+	</tr>
+	</table> 
+    
+       <table border="0">
+		   
+	       <tr> <td valign="top"><strong>หัวข้อ / วัตถุประสงค์<span class="fontred">*</span></strong></td>
+	         <td><textarea name="text2" cols="80" rows="3" id="title"><?php echo $ob4["title"]; ?></textarea></td></tr>
+             <tr> <td valign="top"><strong>Software ที่ต้องการใช้<span class="fontred">*</span></strong></td>
+	         <td><textarea name="optionss" cols="80" rows="3" id="optionss"><?php echo $ob4["optionss"]; ?></textarea></td></tr>
+	       <tr> <td><strong>จำนวนผู้ใช้</strong></td><td><input type='text' name='text3' id='text3' size='5' maxlength="3" value="<?php echo $ob4["detail"]; ?>"> ท่าน <!--(ไม่เกิน : <?php #echo $row[2]; ?> คน) --></td></tr>
+	       <!--<tr>
+	         <td>อาหารว่าง</td>
+             <td>&nbsp;</td>
+	       </tr>
+	       <tr>
+	         <td>อุปกรณ์โสตฯ</td>
+             <td>&nbsp;</td>
+	       </tr>
+	       <tr>
+	         <td>สถานภาพ</td>
+             <td>
+             <input name="public" type="radio" value="1">ใช้งาน
+             <input name="cancel" type="radio" value="0">ยกเลิก
+             </td>
+	       </tr> -->
+	       <tr>
+	         <td colspan="2">
+			 <input type="hidden" value="<?php echo $form_deid; ?>" name="form_deid" />
+             <input name="action" type="hidden" value="add">
+			 <input name='editbook' type='submit' value='เพิ่มการจอง' class="buttonsubmit"></td>
+	       </tr>
+	</table>
+    </fieldset>  
+		</form>

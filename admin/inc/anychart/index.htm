@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>AnyChart Sample of Simple Using AnyChart with PHP and MySQL Database</title>
+		<script type="text/javascript" language="javascript" src="js/AnyChart.js"></script>
+	</head>
+	<body>
+		<div id="container"></div>
+		<script type="text/javascript" language="javascript">
+			//<![CDATA[
+				var chart = new AnyChart('swf/AnyChart.swf');
+				//chartSample.width = '800';
+				//chartSample.height = '100%';
+				chart.setXMLFile('data.php');
+				chart.write('container');
+			//]]>
+		</script>
+	</body>
+</html>

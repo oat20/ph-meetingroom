@@ -1,0 +1,51 @@
+        <?php
+        if($ == ""){
+        ?>
+        <p>
+        <form id="form1" name="form1" method="post" action="admin3-2.php" enctype="multipart/form-data">
+		<fieldset>
+		<legend>เพิ่มห้อง</legend>
+        <label><strong>ชื่อห้อง:</strong><span class="font8red">(จำเป็นต้องกรอก)</span></label><br/>
+<input name="text1" type="text" id="text1" size="60" maxlength="40"><br/><br/>
+       <label><strong>ความจุ:</strong><span class="font8red">(จำเป็นต้องกรอก)</span></label><br/>
+              <input name="text2" type="text" id="text2" size="20" maxlength="3"> (คน)
+          <br/><br/>
+          <label><strong>ที่ตั้ง:</strong><br/><input name="location" type="text" size="60" maxlength="255"></label><br/><br/>
+          <!--<label><strong>Upload รูปห้อง:</strong><br/><input name="picdata" type="file" size="50"></label><br/><br/> -->
+          
+<!--            <label>สี:</label><br/>
+               <input type='text' size='15' id='input_4' name="myColorFld"> <input type='button' value='เลือกสี' onclick='pickerPopup202("input_4","sample_4");'>&nbsp;
+			    <span id='sample_4'>&nbsp;</span><br/><br/>
+ -->       
+ <input type="hidden" name="action" value="add" />
+ <input type="submit" name="Submit" value="เพิ่มรายการ" class="buttonsubmit">
+       </fieldset>
+         </form>
+        </p>
+        <?php
+        }else{
+        ?>
+        <p>
+        <form id="form1" name="form1" method="post" action="admin3.php" enctype="multipart/form-data">
+		<fieldset>
+		<legend>แก้ไข</legend>
+        <label><strong>ชื่อห้อง:</strong><span class="font8red">(จำเป็นต้องกรอก)</span></label><br/>
+<input name="text1" type="text" id="text1" size="60" maxlength="40"><br/><br/>
+       <label><strong>ความจุ:</strong><span class="font8red">(จำเป็นต้องกรอก)</span></label><br/>
+              <input name="text2" type="text" id="text2" size="20" maxlength="3"> (คน)
+          <br/><br/>
+          <label><strong>ที่ตั้ง:</strong><br/><input name="location" type="text" size="60" maxlength="255"></label><br/><br/>
+          <!--<label><strong>Upload รูปห้อง:</strong><br/><input name="picdata" type="file" size="50"></label><br/><br/> -->
+          
+<!--            <label>สี:</label><br/>
+               <input type='text' size='15' id='input_4' name="myColorFld"> <input type='button' value='เลือกสี' onclick='pickerPopup202("input_4","sample_4");'>&nbsp;
+			    <span id='sample_4'>&nbsp;</span><br/><br/>
+ -->       
+ <input type="hidden" name="action" value="edit" />
+ <input type="submit" name="Submit" value="แก้ไขรายการ" class="buttonsubmit">
+       </fieldset>
+         </form>
+        </p>
+        <?php
+        }
+        ?>

@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/** 
+ * Default Linear CSS Drop-Down Menu Theme
+ *
+ * @file		default.linear.css
+ * @name		Default
+ * @version		0.1
+ * @type		transitional
+ * @browsers	Windows: IE5+, Opera7+, Firefox1+
+ *				Mac OS: Safari2+, Firefox2+
+ *
+ * @link		http://www.lwis.net/
+ * @copyright	2008 Live Web Institute. All Rights Reserved.
+ *
+ */
+
+@import "default.css";
+
+
+ul.dropdown {
+	width: 100%;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #FFFFFF;
+}
+
+	ul.dropdown li, ul.dropdown li a:link {
+	border: none;
+	color: #FFFFFF;
+	}
+
+	ul.dropdown li.hover,
+	ul.dropdown li:hover {
+	color: #FFFFFF;
+	}
+
+	ul.dropdown ul {
+	margin-top: 0;
+	border-top: solid 1px #ccc;
+	background-color: #f6f6f6;
+	width: 100%;
+	}
+
+		ul.dropdown ul li {
+		 background-color: #f6f6f6;
+		}
+ul.dropdown ul li a:link {
+	color: #000000;
+		}
+		ul.dropdown ul li.hover {
+		 margin: 0;
+		 border: none;
+		}
+
+
+ul.dropdown ul *.dir {
+ padding-right: 7px;
+ background-image: none;
+}

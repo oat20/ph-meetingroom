@@ -1,0 +1,25 @@
+//จำแนกตามห้อง
+select count(meetingroom_userq.uq_id) as a,meetingroom_croom.name as b
+from meetingroom_userq,meetingroom_croom
+where meetingroom_userq.cr_id=meetingroom_croom.cr_id
+group by b
+
+//จำแนกตามหน่วยงาน
+select count(meetingroom_userq.uq_id) as a,organization.Fname as b
+from meetingroom_userq,organization,jos_users
+where meetingroom_userq.u_id=jos_users.id
+and jos_users.DeID=organization.DeID
+group by b
+
+<?php
+			$query_rsCal2 = "select * from meetingroom_userq,meetingroom_croom
+			where meetingroom_userq.Dater='$times' 
+			and meetingroom_userq.cr_id=meetingroom_croom.cr_id
+			order by meetingroom_userq.T_in asc";
+			$rsCal2 = mysql_query($query_rsCal2) or die(mysql_error());
+			while($row_rsCal2 = mysql_fetch_array($rsCal2)){
+			?>
+			<span class="activity" style="background:<?php echo $row_rsCal2[color]; ?>"><a href="bookingroom/inc/roomview.inc.php?<? echo"ID=$row_rsCal2[uq_id]"; ?>&mode=detail" title="รายละเอียดการจอง" rel="gb_page_center[640, 480]"><?php echo $row_rsCal2[T_in]; ?> - <?php echo $row_rsCal2[T_out]; ?> <?php echo $row_rsCal2[title]; ?></a></span><br/>
+			<?php
+			}
+			?>

@@ -1,0 +1,61 @@
+<?php
+$sql_permission="select usertype
+from jos_users
+where id='$u'";
+$rs_permission=mysql_query($sql_permission);
+$ob_permission=mysql_fetch_array($rs_permission);
+?>
+    <link rel="stylesheet" href="menu/menu_style2.css" type="text/css">
+	<div class="menu2">
+		<ul>
+        	<li><a href="home.php" id="current">ปฏทินการจอง</a></li>
+             <!--<li><a href="formbooking.php" >จองห้อง</a></li> -->
+             <!--<li><a href="#" >Rooms</a></li> -->
+             <li><a href="#">My Booking</a>
+             	<ul>
+                	<li><a href="mybooking.php?sta_id=1">รายการอนุมัติแล้ว</a></li>
+                    <li><a href="mybooking.php?sta_id=2">รายการรออนุมัติ</a></li>
+                    <li><a href="mybooking.php?sta_id=3">รายการยกเลิก</a></li>
+             	<?php
+                if($ob_permission[usertype]==2){
+             		#print "<ul>";
+                	 print "<li><a href='#'>ยืนยันการจอง</a></li>";
+                	#print "</ul>";
+                 }
+                 ?>
+                 </ul>
+             </li>
+             <!--<li><a href="report.php">Search</a></li> -->
+             <?php
+             if($ob_permission[usertype] == 3)
+             {
+             	print '<li><a href="#">อนุมัติการจอง</a>';
+             		print "<ul>";
+                    	print '<li><a href="approve.php?mode=1">รายการเข้าใหม่</a></il>';
+                        print '<li><a href="approve.php?mode=2">รายการที่ผ่านมา</a></il>';
+                		#print '<li><a href="#?id=1">รายการอนุมัติแล้ว</a></il>';
+                    	#print '<li><a href="#?id=2">รายการรออนุมัติ</a></il>';
+                        #print '<li><a href="#?id=3">รายการยกเลิก</a></il>';
+                	print "</ul>";
+             	print "</li>";
+               
+               print '<li><a href="#">Control Panel</a>';
+          		print "<ul>";
+                	print '<li><a href="config.php">ตั้งค่าระบบ</a></li>';
+                	print '<li><a href="room_cate.php">รายการประเภทห้อง</a></li>';
+                	print '<li><a href="room.php">รายการห้อง</a></li>';
+                	print '<li><a href="food.php">รายการอาหารว่าง</a></li>';
+                	print '<li><a href="media.php">รายการอุปกรณ์เพิ่มเติม</a></li>';
+                	print '<li><a href="org.php">ภาควิชา/หน่วยงาน</a></li>';
+                    print '<li><a href="user.php">ผู้ใช้</a></li>';
+                print "</ul>";
+          	print "</li>";
+            }
+             #else
+             #{
+             	#print "<li><a href='login.php'>ผู้ดูแลระบบ</a></li>";
+             #}
+             ?>
+		</ul>
+	</div>
+<div style="clear:both"></div>

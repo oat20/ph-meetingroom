@@ -1,0 +1,57 @@
+<script src="bookingroom/js/ajax_framework.js"></script>
+<script>
+function formSubmit() {
+	var URL = "bookingroom/inc/_checkroom.php";
+	var data = getFormData("checkroom");
+	ajaxLoad("post", URL, data, "display");
+}
+</script>
+
+<h1>ค้นหา</h1>
+<fieldset>
+	<legend>ตรวจสอบห้องว่าง</legend>
+    <form id="checkroom" method="post">
+      <table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><strong>วันที่:</strong></td>
+    <td>
+	  <strong>ห้อง:</strong></td>
+    <td valign="top"><strong>เวลา:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top"><input type="text" id="sel4" size="10" readonly="true" value="<?php echo $startdate; ?>" class="forminput">
+      <input name="button" type="image" src="bookingroom/img/calendar.png" id='button4' onClick="alert('click');" />
+      <script type="text/javascript">
+		var cal = new Zapatec.Calendar.setup({
+		
+		inputField     :    "sel4",     // id of the input field
+		ifFormat       :    "%Y-%m-%d",     // format of the input field
+		showsTime      :     false,
+		button         :    "button4",// trigger button (well, IMG in our case)
+		align          :    "Tl"           // alignment (defaults to "Bl")
+		
+		});
+		</script>
+      </td>
+    <td valign="top"><select name="room" id="room" class="forminput">
+      <option value="0">- เลือกรายการ -</option>
+      <?php
+					$room_category="select cr_id, name, net
+					from meetingroom_croom
+					order by cr_id asc";
+					$rs=mysql_query($room_category);
+					while($ob=mysql_fetch_array($rs)){
+				?>
+      <option value="<?php echo $ob["cr_id"]; ?>">- <?php echo $ob["name"]; ?> (ความจุ <?php echo $ob["net"]; ?> ท่าน)</option>
+      <?php
+					}
+				?>
+    </select>
+    <td><?php print booTime(); ?></td>
+      <td valign="top"><input name="input" type="button" value="ตรวจสอบ" class="buttonsubmit" onClick="formSubmit()"></td>
+  </tr>
+  </table>
+</form>
+<div id="display"></div>
+</fieldset>

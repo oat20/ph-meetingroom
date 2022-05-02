@@ -1,0 +1,35 @@
+<h1>ตั้งค่าระบบ</h1>
+<form action="admin/config_action.php" method="post">
+<?php
+$sql="select days,filetype
+from config";
+$rs=mysql_query($sql);
+$ob=mysql_fetch_array($rs);
+?>
+<table width="100%" class="table1">
+	<tr>
+    	<td class="td4">กำหนดจำนวนวันในการจองล่วงหน้า:</td>
+        <td class="td5"><input name="days" type="text" size="5" maxlength="1" class="forminput2" value="<?=$ob[days];?>" /> วัน</td>
+    </tr>
+    <!--<tr>
+    	<td class="td4">กำหนดนามสกุลไฟล์ที่ Upload ได้:</td>
+        <td class="td5"><input name="filetype" type="text" size="50" maxlength="" class="forminput2" value="<?=$ob[filetype];?>" /></td>
+    </tr> -->
+    <tr>
+    	<td class="td4"></td>
+        <td class="td5"><input name="บันทึก" type="submit" value="บันทึก" class="buttonsubmit" /></td>
+    </tr>
+	<!--<tr>
+    	<td>Online</td>
+        <td><input name="config" type="radio" value="1" checked> Yes <input name="config" type="radio" value="0"> No</td>
+    </tr>
+    <tr>
+    	<td>ราคาอาหารว่างต่อคน</td>
+        <td><?php #print fixcost("cost_snack"); ?> บาท</td>
+    </tr>
+    <tr>
+    	<td>ราคาอาหารกลางวันต่อคน</td>
+        <td><?php #print fixcost("cost_lunch"); ?> บาท</td>
+    </tr> -->
+</table>
+</form>

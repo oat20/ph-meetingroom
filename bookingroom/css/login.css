@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	font-size: 10pt;
+	background-color: #CCC;
+	font-family: verdana, arial, tahoma;
+}
+a{
+	color: #FFF;
+	text-decoration: none;
+}
+a:hover{
+	color: #FFF;
+	text-decoration: underline;
+}
+td{
+	padding: 5px;
+}
+#warp{
+	background-image: url(../img/bgLogin.png);
+	background-repeat: repeat;
+	border: 1px solid #FFF;
+	height: 565px;
+	width: 975px;
+	margin-top: 50px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#contrainer{
+	padding-top: 50px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+}
+#left{
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-top: 40px;
+}
+#left h1{
+	font-size: 10pt;
+	margin-bottom: 10px;
+	color: #FFF;
+	font-weight: bold;
+	letter-spacing: 1px;
+	background-image: url(../img/box/box_02.png);
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding-top: 8px;
+	padding-right: 10px;
+	padding-bottom: 8px;
+	padding-left: 10px;
+}
+#left ul{}
+#left ul li{}
+#left .table1
+{
+	border-collapse:collapse;
+	/*border:1px solid #CCC;*/
+}
+#left .td1{
+	color: #FFFFFF;
+	background-color: #59993f;
+	font-weight: bold;
+	padding: 5px;
+}
+#left .td3{
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #666;
+	background-color: #FFF;
+	padding: 5px;
+}
+
+#right{
+	margin-top: 30px;
+	margin-left: 500px;
+}
+#right h1{
+	font-size: 12pt;
+	font-weight: bold;
+	color: #FFF;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #FFFFFF;
+}
+#right .forminput{
+	font-size: 8pt;
+	padding: 3px;
+	font-family: tahoma;
+	border: 1px solid #999999;
+}
+#right .formbutton{
+	font-size: 8pt;
+	font-weight: bold;
+	font-family: verdana, arial, tahoma;
+	padding-top: 5px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	border: 1px solid #999999;
+	cursor: pointer;
+}
+#right label{
+	color: #FFF;
+	font-size: 8pt;
+}
+.fontred{
+	color: #F00;
+}
