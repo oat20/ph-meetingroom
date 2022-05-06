@@ -2,7 +2,8 @@
 session_start();
 
 include"bookingroom/config.php";
-include"bookingroom/connect/connect.php";
+require_once './bookingroom/mysqli_connect.php';
+//include"bookingroom/connect/connect.php";
 
 $login_username=$_POST["login_username"];
 $login_password=$_POST["login_password"];
@@ -21,12 +22,12 @@ if($action == "login")
 				or jos_users.email = '$login_username') 
 				and jos_users.password = '$login_password'
 				and user_type.flag = '1'";
-				$result_login = mysql_query($sql_login);
-				$num_row=mysql_num_rows($result_login);
-				$object_login = mysql_fetch_assoc($result_login);
+				$result_login = mysqli_query($mysqli, $sql_login);
+				$num_row=mysqli_num_rows($result_login);
+				$object_login = mysqli_fetch_assoc($result_login);
 					
 				$u=$object_login["id"];
-				$ses_deid=$object_login[DeID];
+				$ses_deid=$object_login['DeID'];
 
 					if ($num_row != "0")
 					{
@@ -37,19 +38,19 @@ if($action == "login")
 						$_SESSION["userType"] = $object_login["usertype"]; //usertype
 						
 						$datelog = date("Y-m-d H:i:s");
-						$ip=getenv(REMOTE_ADDR); 
+						$ip = $_SERVER['REMOTE_ADDR'];
 					$sql_userlog = "INSERT INTO user_log (us_id, 
 					ul_in, 
 					ul_ip)
 					VALUES ('$u', 
 					'$datelog', 
 					'$ip')";
-					mysql_query($sql_userlog);
+					mysqli_query($mysqli, $sql_userlog);
 					
 					$sqlLast = "update jos_users set 
 					lastvisitDate = '$datelog' 
 					where id = '$u'";
-					mysql_query($sqlLast);
+					mysqli_query($mysqli, $sqlLast);
 						#$result_userlog = mysql_query($sql_userlog, $link) or die("Error"); 
 						header("location: allrooms.php");
 						//header("location: home.php?sta_id=1");
@@ -70,10 +71,10 @@ if($action == "login")
 				$sql_login = "select username,password,email 
 				from jos_users
 				where email = '$_POST[email]'";
-				$result_login = mysql_query($sql_login);
-				$num_row=mysql_num_rows($result_login);
-				$ob=mysql_fetch_array($result_login);
-				$pw=$ob[password];
+				$result_login = mysqli_query($mysqli, $sql_login);
+				$num_row=mysqli_num_rows($result_login);
+				$ob=mysqli_fetch_array($result_login);
+				$pw=$ob['password'];
 
 					if ($num_row != "0")
 					{
