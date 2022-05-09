@@ -24,10 +24,12 @@ $cmd = "SELECT *, meetingroom_croom.name as a, room_type.name as b
                                     'location' => $row['location']
                                 );
                             }
-                            echo json_encode($resonse);
+                            http_response_code(200);
+                            echo json_encode($resonse, JSON_UNESCAPED_UNICODE);
 
                         }else{
 
+                            http_response_code(400);
                             echo json_encode(array(
                                 'status' => false
                             ));
