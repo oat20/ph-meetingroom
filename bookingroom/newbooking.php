@@ -1,5 +1,4 @@
 <style type="text/css">
-<!--
 #Layer11 {position:absolute;
 	left:2px;
 	top:5px;
@@ -38,7 +37,6 @@ a:active {
 	color: #3399FF;
 }
 .style3 {font-size: 12; }
--->
 </style>
 	<?php
 		#$sql2="select * from meetingroom_userq,meetingroom_croom
@@ -57,8 +55,8 @@ a:active {
 		meetingroom_userq.Dater asc, 
 		meetingroom_userq.time_in asc
 		limit 0,10";
-		$rs2=mysql_query($sql2);
-		$total=mysql_num_rows($rs2);
+		$rs2=mysqli_query($mysqli, $sql2);
+		$total=mysqli_num_rows($rs2);
 		list($tel,$email) = explode("/",$ob2["email"]);
 		?>
         <div class="table-responsive">
@@ -78,7 +76,7 @@ a:active {
             <tbody>
 	  <?php
 		$a=1;
-		while($ob2=mysql_fetch_array($rs2)){
+		while($ob2=mysqli_fetch_array($rs2)){
 			if($ob2['uq_cancel'] == 'Yes'){
 				$active = 'danger';
 			}else if($ob2['confirm'] == '2'){
@@ -97,10 +95,10 @@ a:active {
         </td>
       	<td><?php echo $ob2["uq_id"];?></td>
         <td><?php echo $ob2["created"];?></td>
-	  	<td><div class="activity2" style="background-color:<?php echo $ob2["color"];?>"><?php echo $ob2[r_name]; ?></div></td>
-		<td><?php print dateThai2($ob2[Dater]).' เวลา '.$ob2["time_in"].' - '.$ob2["time_out"]; ?></td>
+	  	<td><div class="activity2" style="background-color:<?php echo $ob2["color"];?>"><?php echo $ob2['r_name']; ?></div></td>
+		<td><?php print dateThai2($ob2['Dater']).' เวลา '.$ob2["time_in"].' - '.$ob2["time_out"]; ?></td>
 	  	<td><?php echo $ob2["title"]; ?></td>
-        <td><?php print $ob2[uname].'<br>'.$ob2["Fname"].' โทร.'.$ob2["phone"]; ?></td>
+        <td><?php print $ob2['uname'].'<br>'.$ob2["Fname"].' โทร.'.$ob2["phone"]; ?></td>
         <td><small><dl class="dl-horizontal">
   				<dt>รับเรื่อง:</dt>
   				<dd><?php echo $cf_status_recive[$ob2["status1"]];?></dd>

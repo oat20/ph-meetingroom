@@ -2,12 +2,16 @@
 session_start();
 
 include("bookingroom/config.php");
+require_once './bookingroom/mysqli_connect.php';
 include("bookingroom/inc/checksession.inc.php");
-include("bookingroom/connect/connect.php");
+//include("bookingroom/connect/connect.php");
 include("bookingroom/inc/function.php");
 ?>
 <!doctype html>
 <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <?php include("bookingroom/css-inc.php");?>
 <script>
 function booking() {
@@ -225,9 +229,9 @@ else{return true;}
 							from organization
 							where Types != '0'
 							order by DeID asc";
-							$rs=mysql_query($sql);
-							while($ob=mysql_fetch_assoc($rs)){
-								print "<option value=".$ob[DeID].">&#8250; ".$ob[Fname]."</option>";
+							$rs=mysqli_query($mysqli, $sql);
+							while($ob=mysqli_fetch_assoc($rs)){
+								print "<option value=".$ob['DeID'].">&#8250; ".$ob['Fname']."</option>";
 							}
 							?>
             			</select>
@@ -244,8 +248,8 @@ else{return true;}
 					from meetingroom_croom
 					where enable = '1'
 					order by cr_id asc";
-					$rs=mysql_query($room_category);
-					while($ob_room = mysql_fetch_assoc($rs)){
+					$rs=mysqli_query($mysqli, $room_category);
+					while($ob_room = mysqli_fetch_assoc($rs)){
 						echo '<option value="'.$ob_room["cr_id"].'">&#8250; '.$ob_room["name"].' '.$ob_room["cr_number"].' ('.$ob_room["location"].')</option>';
 					}
 				?>
@@ -310,13 +314,32 @@ else{return true;}
                 		</div>
                     </div>
                 </div>
+
+				<div class="form-group">
+					<label class="col-sm-3 control-label">รูปแบบการใช้งาน</label>
+					<div class="col-sm-9">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="onsite" value="YES" checked>
+								On Site 
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="online" value="YES">
+								On Line 
+							</label>
+							<span class="help-block" id="onlineNote" style="display: none;">โปรดระบุความต้องการและ Platform ที่ต้องการใช้ในส่วนรายละเอียดเพิ่มเติม</span>
+						</div>
+					</div>
+				</div>
                 
                 <div class="form-group">
                 	<label class="control-label col-sm-3">วัตถุประสงค์เพื่อ:</label>
                     <div class="col-sm-9">
                     	<?php
-						$rs = mysql_query("select * from meetingroom_objective where ob_active = '1' and ob_trash = '0' order by ob_id asc");
-						while($ob = mysql_fetch_assoc($rs)){
+						$rs = mysqli_query($mysqli, "select * from meetingroom_objective where ob_active = '1' and ob_trash = '0' order by ob_id asc");
+						while($ob = mysqli_fetch_assoc($rs)){
 							if($ob['ob_id'] == '1'){
 								echo '<label class="radio-inline"><input type="radio" name="sendObid" checked value="'.$ob["ob_id"].'"> '.$ob['ob_title'].'</label> ';
 							}else{
@@ -348,9 +371,9 @@ else{return true;}
 						$sql="select * from meetingroom_snack
 						where trash = '0'
 						order by food_id asc";
-						$rs=mysql_query($sql);
-						while($ob=mysql_fetch_assoc($rs)){
-							print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob[food_id]."> ".$ob[food]."</label> ";
+						$rs=mysqli_query($mysqli, $sql);
+						while($ob=mysqli_fetch_assoc($rs)){
+							print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob['food_id']."> ".$ob['food']."</label> ";
 						}
 						?>
                     </div>
@@ -366,21 +389,21 @@ else{return true;}
                 	<label class="control-label col-sm-3">อุปกรณ์ที่ต้องการใช้เพิ่มเติม:</label>
                     <div class="col-sm-9">
                     	<?php
-						$sql6 = mysql_query("select * from meetingroom_croom_media
+						$sql6 = mysqli_query($mysqli, "select * from meetingroom_croom_media
 						where cr_id = '$ob_room[cr_id]'");
-						while($ob6 = mysql_fetch_assoc($sql6)){
+						while($ob6 = mysqli_fetch_assoc($sql6)){
 							$room_media_id[] = $ob6["media_id"];
 						}
 						
 						$sql="select * from meetingroom_media
 						where trash = '0'
 						order by media_id asc";
-						$rs=mysql_query($sql);
-						while($ob=mysql_fetch_assoc($rs)){
+						$rs=mysqli_query($mysqli, $sql);
+						while($ob=mysqli_fetch_assoc($rs)){
 							if(@in_array($ob["media_id"], $room_media_id)){
-								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob[media_id]." checked> ".$ob[media]."</label></div>";
+								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob['media_id']." checked> ".$ob['media']."</label></div>";
 							}else{
-								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob[media_id]."> ".$ob[media]."</label></div>";
+								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob['media_id']."> ".$ob['media']."</label></div>";
 							}
 						}
 						?>
@@ -391,8 +414,8 @@ else{return true;}
                 	<label class="control-label col-sm-3">รูปแบบการจัดโต๊ะ:</label>
                     <div class="col-sm-9">
                     	<?php
-						$rs = mysql_query("select * from meetingroom_tableformat where tf_active = '1' and tf_trash = '0' order by tf_id asc");
-						while($ob = mysql_fetch_assoc($rs)){
+						$rs = mysqli_query($mysqli, "select * from meetingroom_tableformat where tf_active = '1' and tf_trash = '0' order by tf_id asc");
+						while($ob = mysqli_fetch_assoc($rs)){
 							if($ob["tf_id"] == 4){
 								echo '<div class="radio"><label><input type="radio" value="'.$ob['tf_id'].'" name="tf_id" checked required> '.$ob['tf_title'].' <a href="'.$livesite.'bookingroom/img/room/'.$ob['tf_photo'].'" target="new"><i class="glyphicon glyphicon-picture"></i> ตัวอย่าง</a></label></div>';
 							}else{
@@ -421,22 +444,22 @@ else{return true;}
                     	<?php
 			   			$sql="select * from room_condition_charges
 			   			order by id asc";
-			   			$rs=mysql_query($sql);
-			   			while($ob=mysql_fetch_array($rs)){
+			   			$rs=mysqli_query($mysqli, $sql);
+			   			while($ob=mysqli_fetch_array($rs)){
 							if($ob['id'] == '1'){
 								
 								if($ob['id'] == '2'){
-				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
+				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
 								}else{
-									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."' checked> ".$ob[name]."</label></div>";
+									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."' checked> ".$ob['name']."</label></div>";
 								}
 							
 							}else{
 								
 								if($ob['id'] == '2'){
-				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
+				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
 								}else{
-									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]."</label></div>";
+									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']."</label></div>";
 								}
 							
 							}
@@ -448,7 +471,7 @@ else{return true;}
                 <div class="form-group">
              		<label class="control-label col-sm-3">รายละเอียดเพิ่มเติม:</label>
                 	<div class="col-sm-9">
-                    	<textarea name="optionss" cols="60" rows="3" class="form-control forminput2" id="optionss"></textarea>
+                    	<textarea name="optionss" cols="60" rows="4" class="form-control forminput2" id="optionss"></textarea>
                     </div>
              	</div>
                 
@@ -547,6 +570,16 @@ else{return true;}
 
         			bootstrapValidator.enableFieldValidators('comment', shipNewAddress);
     		});
+
+			$('input[name="online"]').change(function(){
+				if($('input[name="online"]').is(':checked')){
+					$('#onlineNote').show();
+					//$('textarea[name="optionss"]').attr('required', 'required');
+				}else{
+					$('#onlineNote').hide();
+					//$('textarea[name="optionss"]').removeAttr("required");
+				}
+			});
 			
 		});
 	</script>

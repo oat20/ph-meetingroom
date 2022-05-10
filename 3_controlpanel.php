@@ -2,9 +2,10 @@
 session_start();
 
 include"bookingroom/config.php";
+require_once './bookingroom/mysqli_connect.php';
 include("bookingroom/inc/checksession.inc.php");
 include("bookingroom/inc/function.php");
-include("bookingroom/connect/connect.php");
+//include("bookingroom/connect/connect.php");
 ?>
 <!doctype html>
 <html>

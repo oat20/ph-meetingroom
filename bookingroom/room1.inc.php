@@ -408,8 +408,8 @@ else{return true;}
                     	<?php
 						if($ob_room['cr_tablechange']=='Yes'){
 							
-							$rs = mysql_query("select * from meetingroom_tableformat where tf_active = '1' and tf_trash = '0' order by tf_id asc");
-							while($ob = mysql_fetch_assoc($rs)){
+							$rs = mysqli_query($mysqli, "select * from meetingroom_tableformat where tf_active = '1' and tf_trash = '0' order by tf_id asc");
+							while($ob = mysqli_fetch_assoc($rs)){
 								if($ob["tf_id"] == $ob_room["tf_id"]){
 									echo '<div class="radio"><label><input type="radio" value="'.$ob['tf_id'].'" name="tf_id" checked required> '.$ob['tf_title'].' <a href="'.$livesite.'bookingroom/img/room/'.$ob['tf_photo'].'" target="new"><i class="glyphicon glyphicon-picture"></i> ตัวอย่าง</a></label></div>';
 								}else{
