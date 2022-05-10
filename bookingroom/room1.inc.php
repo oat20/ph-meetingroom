@@ -156,9 +156,9 @@ else{return true;}
                 </div>
                 
                 <?php
-				$sql5 = mysql_query("select * from jos_users
+				$sql5 = mysqli_query($mysqli, "select * from jos_users
 				where id = '$_SESSION[u]'");
-				$ob5 =mysql_fetch_assoc($sql5);
+				$ob5 =mysqli_fetch_assoc($sql5);
 				?>
                 <div class="form-group">
                 	<label class="control-label col-sm-3">ด้วยข้าพเจ้า <span class="regred_8">(จำเป็นต้องกรอก)</span>:</label>
@@ -191,12 +191,12 @@ else{return true;}
 							from organization
 							where Types != '0'
 							order by DeID asc";
-							$rs=mysql_query($sql);
-							while($ob=mysql_fetch_assoc($rs)){
+							$rs=mysqli_query($mysqli, $sql);
+							while($ob=mysqli_fetch_assoc($rs)){
 								if($ob5["DeID"] == $ob["DeID"]){
-									print "<option value=".$ob[DeID]." selected>&#8250; ".$ob[Fname]."</option>";
+									print "<option value=".$ob['DeID']." selected>&#8250; ".$ob['Fname']."</option>";
 								}else{
-									print "<option value=".$ob[DeID].">&#8250; ".$ob[Fname]."</option>";
+									print "<option value=".$ob['DeID'].">&#8250; ".$ob['Fname']."</option>";
 								}
 							}
 							?>
@@ -213,8 +213,8 @@ else{return true;}
 					inner join meetingroom_tableformat on (meetingroom_croom.tf_id = meetingroom_tableformat.tf_id)
 					where enable = '1'
 					and cr_id = '$_GET[keyID]'";
-					$rs=mysql_query($room_category);
-					$ob_room = mysql_fetch_assoc($rs);
+					$rs=mysqli_query($mysqli, $room_category);
+					$ob_room = mysqli_fetch_assoc($rs);
 					echo '<p class="form-control-static"><i class="fa fa-check-circle"></i> '.$ob_room["name"].' '.$ob_room["cr_number"].' <a href="allrooms.php" class="btn btn-link"><i class="fa fa-angle-double-left" aria-hidden="true"></i> เลือกห้องใหม่</a></p>
 					<input type="hidden" value="'.$ob_room["cr_id"].'" name="cr_id">';
 				?>
@@ -291,13 +291,30 @@ else{return true;}
                 		</div>
                     </div>
                 </div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">รูปแบบการใช้งาน</label>
+					<div class="col-sm-9">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="YES" name="onsite" checked> On Site
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="YES" name="online"> On Line
+							</label>
+							<span class="help-block" id="onlineNote" style="display: none;">โปรดระบุความต้องการและ Platform ที่ต้องการใช้ในส่วนรายละเอียดเพิ่มเติม</span>
+						</div>
+					</div>
+				</div>
                 
                 <div class="form-group">
                 	<label class="control-label col-sm-3">วัตถุประสงค์เพื่อ:</label>
                     <div class="col-sm-9">
                     	<?php
-						$rs = mysql_query("select * from meetingroom_objective where ob_active = '1' and ob_trash = '0' order by ob_id asc");
-						while($ob = mysql_fetch_assoc($rs)){
+						$rs = mysqli_query($mysqli, "select * from meetingroom_objective where ob_active = '1' and ob_trash = '0' order by ob_id asc");
+						while($ob = mysqli_fetch_assoc($rs)){
 							if($ob['ob_id'] == '1'){
 								echo '<label class="radio-inline"><input type="radio" name="sendObid" value="'.$ob["ob_id"].'" checked> '.$ob['ob_title'].'</label> ';
 							}else{
@@ -346,9 +363,9 @@ else{return true;}
 						$sql="select * from meetingroom_snack
 						where trash = '0'
 						order by food_id asc";
-						$rs=mysql_query($sql);
-						while($ob=mysql_fetch_assoc($rs)){
-							print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob[food_id]."> ".$ob[food]."</label> ";
+						$rs=mysqli_query($mysqli, $sql);
+						while($ob=mysqli_fetch_assoc($rs)){
+							print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob['food_id']."> ".$ob['food']."</label> ";
 						}
 						?>
                     </div>
@@ -364,21 +381,21 @@ else{return true;}
                 	<label class="control-label col-sm-3">อุปกรณ์ที่ต้องการใช้เพิ่มเติม:</label>
                     <div class="col-sm-9">
                     	<?php
-						$sql6 = mysql_query("select * from meetingroom_croom_media
+						$sql6 = mysqli_query($mysqli, "select * from meetingroom_croom_media
 						where cr_id = '$ob_room[cr_id]'");
-						while($ob6 = mysql_fetch_assoc($sql6)){
+						while($ob6 = mysqli_fetch_assoc($sql6)){
 							$room_media_id[] = $ob6["media_id"];
 						}
 						
 						$sql="select * from meetingroom_media
 						where trash = '0'
 						order by media_id asc";
-						$rs=mysql_query($sql);
-						while($ob=mysql_fetch_assoc($rs)){
+						$rs=mysqli_query($mysqli, $sql);
+						while($ob=mysqli_fetch_assoc($rs)){
 							if(@in_array($ob["media_id"], $room_media_id)){
-								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob[media_id]." checked> ".$ob[media]."</label></div>";
+								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob['media_id']." checked> ".$ob['media']."</label></div>";
 							}else{
-								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob[media_id]."> ".$ob[media]."</label></div>";
+								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob['media_id']."> ".$ob['media']."</label></div>";
 							}
 						}
 						?>
@@ -428,22 +445,22 @@ else{return true;}
                     	<?php
 			   			$sql="select * from room_condition_charges
 			   			order by id asc";
-			   			$rs=mysql_query($sql);
-			   			while($ob=mysql_fetch_array($rs)){
+			   			$rs=mysqli_query($mysqli, $sql);
+			   			while($ob=mysqli_fetch_array($rs)){
 							if($ob['id'] == '1'){
 								
 								if($ob['id'] == '2'){
-				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
+				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
 								}else{
-									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."' checked> ".$ob[name]."</label></div>";
+									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."' checked> ".$ob['name']."</label></div>";
 								}
 							
 							}else{
 								
 								if($ob['id'] == '2'){
-				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
+				   					print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']." <div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div></label></div>";
 								}else{
-									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]."</label></div>";
+									print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']."</label></div>";
 								}
 							
 							}
@@ -455,7 +472,7 @@ else{return true;}
                 <div class="form-group">
              		<label class="control-label col-sm-3">รายละเอียดเพิ่มเติม:</label>
                 	<div class="col-sm-9">
-                    	<input type="text" name="optionss" class="form-control">
+						<textarea name="optionss" class="form-control" rows="4"></textarea>
                     </div>
              	</div>
                 

@@ -14,7 +14,6 @@ include("bookingroom/inc/function.php");
 
 <?php include("bookingroom/css-inc.php");?>
 <style type="text/css">
-<!--
 #Layer11 {position:absolute;
 	left:2px;
 	top:5px;
@@ -37,7 +36,6 @@ include("bookingroom/inc/function.php");
 	z-index:12;     
 }
 .style3 {font-size: 12; }
--->
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -116,6 +114,8 @@ include("bookingroom/inc/function.php");
 			t1.phone,
 			t1.uq_owner,
 			t1.optionss,
+			t1.uq_onsite,
+			t1.uq_online,
 			t2.name as r_name,
 			t2.location,
 			t2.color,
@@ -151,12 +151,14 @@ include("bookingroom/inc/function.php");
     	<thead>
       <tr>
       	<th>#</th>
-        <th></th>
+        <!--<th></th>-->
         <th>วันที่จอง</th>
         <!--<th>เลขที่</th>-->
         <!--<th>ลงวันที่</th>-->
         <th>ห้อง</th>     
         <th>วัตถุประสงค์</th>
+		<th>On Site</th>
+		<th>On Line</th>
         <th>ประสานงาน</th>
         <th>Note</th>
         <th></th>
@@ -168,17 +170,22 @@ include("bookingroom/inc/function.php");
 		while($ob2=mysqli_fetch_assoc($rs2)){
 			
 			$owner = ($ob2['uq_owner'] == '') ? $ob2['uname'].'<br>'.$ob2["Fname"].' โทร.'.$ob2["phone"] : $ob2['uq_owner'];
+
+			$uq_onsite = ($ob2['uq_onsite'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-minus"></i>';
+			$uq_online = ($ob2['uq_online'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-minus"></i>';
 	  ?>
       <tr>
       	<td><?php print $a;?></td>
-          <td>
-		  	<?php echo '<p class="activity2" style="background-color:'.$cf_msgicon2_noicon[$ob2['confirm']]['status-color'].'">'.$cf_msgicon2_noicon[$ob2['confirm']]['icon'].' '.$cf_msgicon2_noicon[$ob2['confirm']]['title'].'</p>';?>
-          </td>
-          <td><?php print dateThai3($ob2[Dater]).' เวลา '.$ob2["time_in"].' - '.$ob2["time_out"]; ?></td>
+          <!--<td>
+		  	<?php //echo '<p class="activity2" style="background-color:'.$cf_msgicon2_noicon[$ob2['confirm']]['status-color'].'">'.$cf_msgicon2_noicon[$ob2['confirm']]['icon'].' '.$cf_msgicon2_noicon[$ob2['confirm']]['title'].'</p>';?>
+          </td>-->
+          <td><?php print dateThai3($ob2['Dater']).' เวลา '.$ob2["time_in"].' - '.$ob2["time_out"]; ?></td>
       	<!--<td><?php //echo $ob2["uq_id"];?></td>-->
         <!--<td><?php //echo $ob2["created"];?></td>-->
-	  	<td><div class="activity2" style="background-color:<?php echo $ob2["color"];?>"><?php echo $ob2[r_name].'<br>'.$ob2['location']; ?></div></td>	
+	  	<td><div class="activity2" style="background-color:<?php echo $ob2["color"];?>"><?php echo $ob2['r_name'].'<br>'.$ob2['location']; ?></div></td>	
 	  	<td><?php echo $ob2["title"]; ?></td>
+		  <td><?php echo $uq_onsite;?></td>
+		  <td><?php echo $uq_online;?></td>
         <td><?php print $owner; ?></td>
         <td><?php print $ob2['optionss'];?></td>
         <td><a href="bookingroom/inc/roomview.inc.php?keyID=<?php echo $ob2["uq_id"];?>" class="btn btn-primary btn-sm"><i class="fa fa-external-link fa-fw"></i> View</a></td       
@@ -228,7 +235,7 @@ $(document).ready(function() {
 			
 			$('#calendar-table').DataTable({
 				"columnDefs": [
-					{ "orderable": false, "targets": 7 }
+					{ "orderable": false, "targets": 8 }
 				  ]
 			});
 

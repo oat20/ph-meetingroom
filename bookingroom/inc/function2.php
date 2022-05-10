@@ -332,7 +332,7 @@ function dateFormat($date){
 	}
 	
 //หาค่าวัน/เดือน/ปี  จากวันที่
-function   date_sub($date_1)
+function   date_sub2($date_1)
 							{
 							global  $y,$m,$d;
 							$y=substr("$date_1",0,4);

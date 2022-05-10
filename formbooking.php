@@ -3,7 +3,8 @@ ob_start();
 session_start();
 #$u=$_SESSION["u"];
 include"bookingroom/config.php";
-include"bookingroom/connect/connect.php";
+require_once './bookingroom/mysqli_connect.php';
+//include"bookingroom/connect/connect.php";
 include"bookingroom/inc/function.php";
 include"bookingroom/inc/function2.php";
 include("bookingroom/inc/checksession.inc.php");
@@ -14,6 +15,7 @@ $mode = $_REQUEST["mode"];
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php print $sitename; ?></title>
 <?php include("bookingroom/css-inc.php");?>
         <style>
@@ -146,6 +148,16 @@ include("bookingroom/js-inc.php");
 
         			bootstrapValidator.enableFieldValidators('condition2', shipNewAddress);
     		});
+
+			$('input[name="online"]').change(function(){
+				if($('input[name="online"]').is(':checked')){
+					$('#onlineNote').show();
+					$('textarea[name="optionss"]').attr('required', 'required');
+				}else{
+					$('#onlineNote').hide();
+					$('textarea[name="optionss"]').removeAttr("required");
+				}
+			})
 			
 		});
 	</script>

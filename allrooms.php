@@ -2,8 +2,9 @@
 session_start();
 
 include"bookingroom/config.php";
+require_once './bookingroom/mysqli_connect.php';
 include("bookingroom/inc/function.php");
-include("bookingroom/connect/connect.php");
+//include("bookingroom/connect/connect.php");
 ?>
 <!doctype html>
 <html>
@@ -29,8 +30,8 @@ include("bookingroom/connect/connect.php");
 						INNER JOIN room_type ON ( meetingroom_croom.parent = room_type.id )
 						where meetingroom_croom.enable = '1' 
 						ORDER BY meetingroom_croom.cr_id ASC";
-						$result = mysql_query($cmd);
-						$total = mysql_num_rows($result);
+						$result = mysqli_query($mysqli, $cmd);
+						$total = mysqli_num_rows($result);
 						?>
         	<div class="panel panel-primary">
             	<div class="panel-heading clearfix">
@@ -64,7 +65,7 @@ include("bookingroom/connect/connect.php");
           <?php
 	$a=1;
 	$swap="1";
-	while($row=mysql_fetch_assoc($result))
+	while($row=mysqli_fetch_assoc($result))
 	{
 		if($swap=="1"){
 			$color="";
@@ -82,9 +83,9 @@ include("bookingroom/connect/connect.php");
                 <td><?php echo $row["b"];?></td>
                 <td>
                 	<?php
-					$sql2 = mysql_query("select * from meetingroom_tableformat
+					$sql2 = mysqli_query($mysqli, "select * from meetingroom_tableformat
 					where tf_id = '$row[tf_id]'");
-					$ob2 = mysql_fetch_assoc($sql2);
+					$ob2 = mysqli_fetch_assoc($sql2);
 					//echo '<a href="'.$livesite.'bookingroom/img/room/'.$ob2["tf_photo"].'" target="new">'.$ob2["tf_title"].'</a>';
 					echo $ob2["tf_title"].'<br><small>เปลี่ยนรูปการจัดโต๊ะได้ '.$cf_yn2[$row['cr_tablechange']].'</small>';
 					?>
@@ -109,7 +110,7 @@ include("bookingroom/connect/connect.php");
 			<?php
 			#$a++;
 	}		
-	mysql_close($conn);
+	mysqli_close($mysqli);
 ?>
 	</tbody>
 </table>
