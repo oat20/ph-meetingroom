@@ -171,8 +171,8 @@ include("bookingroom/inc/function.php");
 			
 			$owner = ($ob2['uq_owner'] == '') ? $ob2['uname'].'<br>'.$ob2["Fname"].' โทร.'.$ob2["phone"] : $ob2['uq_owner'];
 
-			$uq_onsite = ($ob2['uq_onsite'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-minus"></i>';
-			$uq_online = ($ob2['uq_online'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-minus"></i>';
+			$uq_onsite = ($ob2['uq_onsite'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+			$uq_online = ($ob2['uq_online'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
 	  ?>
       <tr>
       	<td><?php print $a;?></td>
