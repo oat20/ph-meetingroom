@@ -2,7 +2,8 @@
 session_start();
 
 include("bookingroom/config.php");
-include("bookingroom/connect/connect.php");
+require_once './bookingroom/mysqli_connect.php';
+//include("bookingroom/connect/connect.php");
 include("bookingroom/inc/function.php");
 ?>
 <!doctype html>
@@ -22,9 +23,9 @@ include("bookingroom/inc/function.php");
     	<div class="col-sm-12">
         
         	<?php
-			$sql = mysql_query("select * from meetingroom_croom
+			$sql = mysqli_query($mysqli, "select * from meetingroom_croom
 			where cr_id = '$_GET[keyID]'");
-			$ob = mysql_fetch_assoc($sql);
+			$ob = mysqli_fetch_assoc($sql);
 			?>
         	<div class="panel panel-default">
             	<div class="panel-heading clearfix">
@@ -50,9 +51,9 @@ include("bookingroom/inc/function.php");
                                     <td><strong>ประเภท:</strong></td>
                                     <td>
                                     	<?php
-										$sql2 = mysql_query("select * from room_type
+										$sql2 = mysqli_query($mysqli, "select * from room_type
 										where id = '$ob[parent]'");
-										$ob2 = mysql_fetch_assoc($sql2);
+										$ob2 = mysqli_fetch_assoc($sql2);
 										echo $ob2["name"]; 
 										?>
                                   </td>
@@ -63,9 +64,9 @@ include("bookingroom/inc/function.php");
                                     <td><strong>รูปแบบที่นั่ง:</strong></td>
                                     <td>
                                     	<?php
-										$sql3 = mysql_query("select * from meetingroom_tableformat
+										$sql3 = mysqli_query($mysqli, "select * from meetingroom_tableformat
 										where tf_id = '$ob[tf_id]'");
-										$ob3 = mysql_fetch_assoc($sql3);
+										$ob3 = mysqli_fetch_assoc($sql3);
 										echo $ob3["tf_title"].'<br><small>เปลี่ยนรูปการจัดโต๊ะได้ '.$cf_yn2[$ob['cr_tablechange']].'</small>';
 										?>
                                   </td>
@@ -85,11 +86,11 @@ include("bookingroom/inc/function.php");
                                 	<td><strong>อุปกรณ์ภายในห้อง:</strong></td>
                                     <td colspan="3">
                                     	<?php
-										$sql4 = mysql_query("select * from meetingroom_croom_media
+										$sql4 = mysqli_query($mysqli, "select * from meetingroom_croom_media
 										inner join meetingroom_media on (meetingroom_croom_media.media_id = meetingroom_media.media_id)
 										where meetingroom_croom_media.cr_id = '$ob[cr_id]'
 										order by meetingroom_media.media_id asc");
-										while($ob4 = mysql_fetch_assoc($sql4)){
+										while($ob4 = mysqli_fetch_assoc($sql4)){
 											echo '<i class="fa fa-check-circle" aria-hidden="true"></i> '.$ob4["media"].' ';
 										}
 										?>
@@ -103,9 +104,9 @@ include("bookingroom/inc/function.php");
                                 	<td colspan="4">
                                     	<div class="row">
                                     		<?php
-											$sql5 = mysql_query("select * from meetingroom_croom_photo
+											$sql5 = mysqli_query($mysqli, "select * from meetingroom_croom_photo
 											where cr_id = '$ob[cr_id]'");
-											while($ob5 = mysql_fetch_assoc($sql5)){
+											while($ob5 = mysqli_fetch_assoc($sql5)){
 												echo '<div class="col-sm-4">
 															<a href="'.$livesite.'bookingroom/img/room/'.$ob5["cp_filename"].'" class="thumbnail" target="new"><img src="'.$livesite.'bookingroom/img/room/'.$ob5["cp_filename"].'" class="img-responsive"></a>
 													</div>';
