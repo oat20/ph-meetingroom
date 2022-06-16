@@ -12,7 +12,7 @@ include('../mailer/mail.php');
 		$send = smtpmail($ob['email'], 'รายการจองห้องวันที่ '.dateThai(date('Y-m-d',strtotime($tm.' +1 days'))), $body);
 	}
 	
-	mysqli_query($mysqli, "insert into mail_contact_itlog (id, dateSent, ipSent) values ('".maxid('mail_contact_itlog', 'id')."', '".date('Y-m-d H:i:s')."', '".$_SERVER['REMOTE_ADDR']."')");
+	mysqli_query($mysqli, "insert into mail_contact_itlog (id, dateSent, ipSent) values ('', '".date('Y-m-d H:i:s')."', '".$_SERVER['REMOTE_ADDR']."')");
 	//send email
 
 //line notify
@@ -53,13 +53,10 @@ if($rowEvent > 0){
 	}
  
 	$token = "97PZQvmxrLBM7jvPlCwMZ5yq6msIpMQCMtTpljfoqIP"; //ใส่Token ที่copy เอาไว้
-	//$token2 = 'TSO53WsLyFEH66QLjBuJwDzvFh9BYGG8UNSbHSv4YsV';
 	
-	$str = "แจ้งเตือนใช้ห้องประชุม: ".$lastbooking." More Info ".$livesite.'directmail/weekagenda.php?tm='.date('Y-m-d', strtotime($tm.' -1 day'));
+	$str = "แจ้งเตือนใช้ห้องประชุม: ".$lastbooking." ".$livesite.'directmail/weekagenda.php?tm='.date('Y-m-d', strtotime($tm.' -1 day'));
 	
 	notify_message($str,$token);
-
-	//notify_message($str, $token2);
 	
 }
 //line notify
