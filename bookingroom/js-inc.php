@@ -13,15 +13,6 @@
     });
   </script>-->
       
-<!--cufon-->
-<script src="<?php echo $livesite;?>bookingroom/inc/cufon/cufon-yui.js"></script>
-<script src="<?php echo $livesite;?>bookingroom/inc/cufon/TH_Sarabun_New_400-TH_Sarabun_New_700-TH_Sarabun_New_italic_400-TH_Sarabun_New_italic_700.font.js"></script>
-<script type="text/javascript">
-			Cufon.replace('h1'); Cufon.replace('h2'); Cufon.replace('h3'); Cufon.replace('h4'); Cufon.replace('h5'); Cufon.replace('h6');
-			Cufon.replace('.blog_title'); 
-			//Cufon.replace('.panel-heading'); // Requires a selector engine for IE 6-7, see above
-</script>
-
 <!--texteditor-->
 <script language="javascript" type="text/javascript" src="<?php echo $livesite;?>bookingroom/textediter/wysiwyg.js"></script>
 
@@ -56,3 +47,5 @@
 <!--datatables-->
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap.js"></script>

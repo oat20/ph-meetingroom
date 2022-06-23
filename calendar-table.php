@@ -10,8 +10,10 @@ include("bookingroom/inc/function.php");
 <html lang="en">
 
 <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $sitename;?></title>
-
 <?php include("bookingroom/css-inc.php");?>
 <style type="text/css">
 #Layer11 {position:absolute;
@@ -114,8 +116,6 @@ include("bookingroom/inc/function.php");
 			t1.phone,
 			t1.uq_owner,
 			t1.optionss,
-			t1.uq_onsite,
-			t1.uq_online,
 			t2.name as r_name,
 			t2.location,
 			t2.color,
@@ -157,8 +157,6 @@ include("bookingroom/inc/function.php");
         <!--<th>ลงวันที่</th>-->
         <th>ห้อง</th>     
         <th>วัตถุประสงค์</th>
-		<th>On Site</th>
-		<th>On Line</th>
         <th>ประสานงาน</th>
         <th>Note</th>
         <th></th>
@@ -170,9 +168,6 @@ include("bookingroom/inc/function.php");
 		while($ob2=mysqli_fetch_assoc($rs2)){
 			
 			$owner = ($ob2['uq_owner'] == '') ? $ob2['uname'].'<br>'.$ob2["Fname"].' โทร.'.$ob2["phone"] : $ob2['uq_owner'];
-
-			$uq_onsite = ($ob2['uq_onsite'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
-			$uq_online = ($ob2['uq_online'] === 'YES') ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
 	  ?>
       <tr>
       	<td><?php print $a;?></td>
@@ -184,8 +179,6 @@ include("bookingroom/inc/function.php");
         <!--<td><?php //echo $ob2["created"];?></td>-->
 	  	<td><div class="activity2" style="background-color:<?php echo $ob2["color"];?>"><?php echo $ob2['r_name'].'<br>'.$ob2['location']; ?></div></td>	
 	  	<td><?php echo $ob2["title"]; ?></td>
-		  <td><?php echo $uq_onsite;?></td>
-		  <td><?php echo $uq_online;?></td>
         <td><?php print $owner; ?></td>
         <td><?php print $ob2['optionss'];?></td>
         <td><a href="bookingroom/inc/roomview.inc.php?keyID=<?php echo $ob2["uq_id"];?>" class="btn btn-primary btn-sm"><i class="fa fa-external-link fa-fw"></i> View</a></td       
@@ -235,8 +228,9 @@ $(document).ready(function() {
 			
 			$('#calendar-table').DataTable({
 				"columnDefs": [
-					{ "orderable": false, "targets": 8 }
-				  ]
+					{ "orderable": false, "targets": 6 }
+				  ],
+				  responsive: true 
 			});
 
 });
