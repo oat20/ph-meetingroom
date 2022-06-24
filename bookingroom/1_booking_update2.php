@@ -23,7 +23,7 @@ include("inc/checksession.inc.php");
 $startdate = $_POST["booking_y"].'-'.$_POST["booking_m"].'-'.$_POST["booking_d"];
 $date_amount = date_num($today, $startdate);
 
-if($date_amount >= 3){
+if($date_amount >= 1){
 
 //tb booking
 $booking = mysqli_query($mysqli, "update meetingroom_userq set
