@@ -19,6 +19,7 @@ include('../mailer/mail.php');
 $qEvent = mysqli_query($mysqli, "select *
 	from meetingroom_userq
 	where Dater = '$tm'
+	and uq_cancel like 'No'
 ");
 $rowEvent = mysqli_num_rows($qEvent);
 if($rowEvent > 0){
@@ -27,6 +28,7 @@ if($rowEvent > 0){
 		FROM meetingroom_userq AS t1
 		INNER JOIN meetingroom_croom AS t2 ON ( t1.cr_id = t2.cr_id )
 		WHERE CONCAT( t1.Dater, ' ', t1.time_in, ':00' ) >= CURRENT_TIMESTAMP( )
+		and t1.uq_cancel like 'No'
 		ORDER BY t1.Dater, t1.time_in, t1.time_out
 		LIMIT 1");
 	$rs_lastbooking = mysqli_fetch_assoc($sql_lastbooking);

@@ -131,12 +131,12 @@ else{return true;}
 <body>
 
 	<?php		
-		$booking = mysql_query("select * from meetingroom_userq
+		$booking = mysqli_query($mysqli, "select * from meetingroom_userq
 		inner join organization on (meetingroom_userq.DeID = organization.DeID)
 		inner join meetingroom_croom on (meetingroom_userq.cr_id = meetingroom_croom.cr_id)
 		inner join meetingroom_objective on (meetingroom_userq.ob_id = meetingroom_objective.ob_id)
 		where meetingroom_userq.uq_id = '$_GET[uq_id]'");
-		$booking2 = mysql_fetch_assoc($booking);
+		$booking2 = mysqli_fetch_assoc($mysqli, $booking);
 		$condition = explode("/",$booking2["book_condition"]);
 		$dater = explode("-",$booking2["Dater"]);
 	?>
@@ -186,12 +186,12 @@ else{return true;}
 							from organization
 							where Types != '0'
 							order by DeID asc";
-							$rs=mysql_query($sql);
-							while($ob=mysql_fetch_assoc($rs)){
+							$rs=mysqli_query($mysqli, $sql);
+							while($ob=mysqli_fetch_assoc($rs)){
 								if($booking2["DeID"] == $ob["DeID"]){
-									print "<option value=".$ob[DeID]." selected>&#8250; ".$ob[Fname]."</option>";
+									print "<option value=".$ob['DeID']." selected>&#8250; ".$ob['Fname']."</option>";
 								}else{
-									print "<option value=".$ob[DeID].">&#8250; ".$ob[Fname]."</option>";
+									print "<option value=".$ob['DeID'].">&#8250; ".$ob['Fname']."</option>";
 								}
 							}
 							?>
@@ -207,8 +207,8 @@ else{return true;}
 					from meetingroom_croom
 					inner join meetingroom_tableformat on (meetingroom_croom.tf_id = meetingroom_tableformat.tf_id)
 					where enable = '1'";
-					$rs=mysql_query($room_category);
-					while($ob_room = mysql_fetch_assoc($rs)){
+					$rs=mysqli_query($mysqli, $room_category);
+					while($ob_room = mysqli_fetch_assoc($rs)){
 						if($ob_room["cr_id"] == $booking2["cr_id"]){
 							echo '<div class="radio"><label><input type="radio" name="cr_id" value="'.$ob_room["cr_id"].'" checked required> '.$ob_room["name"].' '.$ob_room["cr_number"].' ('.$ob_room["tf_title"].')</label></div>';
 						}else{
@@ -296,8 +296,8 @@ else{return true;}
                 	<label class="control-label col-sm-3">วัตถุประสงค์เพื่อ:</label>
                     <div class="col-sm-9">
                     	<?php
-						$rs = mysql_query("select * from meetingroom_objective where ob_active = '1' and ob_trash = '0' order by ob_id asc");
-						while($ob = mysql_fetch_assoc($rs)){
+						$rs = mysqli_query($mysqli, "select * from meetingroom_objective where ob_active = '1' and ob_trash = '0' order by ob_id asc");
+						while($ob = mysqli_fetch_assoc($rs)){
 							if($ob['ob_id'] == $booking2["ob_id"]){
 								echo '<label class="radio-inline"><input type="radio" name="sendObid" checked value="'.$ob["ob_id"].'"> '.$ob['ob_title'].'</label> ';
 							}else{
@@ -333,21 +333,21 @@ else{return true;}
                 	<label class="control-label col-sm-3">อาหารว่าง:</label>
                     <div class="col-sm-9">
                     	<?php
-						$snack2 = mysql_query("select * from meetingroom_snack2
+						$snack2 = mysqli_query($mysqli, "select * from meetingroom_snack2
 						where uq_id = '$booking2[uq_id]'");
-						while($snack2_2 = mysql_fetch_assoc($snack2)){
+						while($snack2_2 = mysqli_fetch_assoc($snack2)){
 							$food_id[] = $snack2_2["food_id"];
 						}
 						
 						$sql="select * from meetingroom_snack
 						where trash = '0'
 						order by food_id asc";
-						$rs=mysql_query($sql);
-						while($ob=mysql_fetch_assoc($rs)){
+						$rs=mysqli_query($mysqli, $sql);
+						while($ob=mysqli_fetch_assoc($rs)){
 							if(@in_array($ob["food_id"], $food_id)){
-								print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob[food_id]." checked> ".$ob[food]."</label> ";
+								print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob['food_id']." checked> ".$ob['food']."</label> ";
 							}else{
-								print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob[food_id]."> ".$ob[food]."</label> ";
+								print "<label class='checkbox-inline'><input name=food_id[] type=checkbox value=".$ob['food_id']."> ".$ob['food']."</label> ";
 							}
 						}
 						?>
@@ -364,21 +364,21 @@ else{return true;}
                 	<label class="control-label col-sm-3">อุปกรณ์ที่ต้องการใช้เพิ่มเติม:</label>
                     <div class="col-sm-9">
                     	<?php
-						$sql6 = mysql_query("select * from meetingroom_mediarelation
+						$sql6 = mysqli_query($mysqli, "select * from meetingroom_mediarelation
 						where uq_id = '$booking2[uq_id]'");
-						while($ob6 = mysql_fetch_assoc($sql6)){
+						while($ob6 = mysqli_fetch_assoc($sql6)){
 							$room_media_id[] = $ob6["media_id"];
 						}
 						
 						$sql="select * from meetingroom_media
 						where trash = '0'
 						order by media_id asc";
-						$rs=mysql_query($sql);
-						while($ob=mysql_fetch_assoc($rs)){
+						$rs=mysqli_query($mysqli, $sql);
+						while($ob=mysqli_fetch_assoc($rs)){
 							if(@in_array($ob["media_id"], $room_media_id)){
-								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob[media_id]." checked> ".$ob[media]."</label></div>";
+								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob['media_id']." checked> ".$ob['media']."</label></div>";
 							}else{
-								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob[media_id]."> ".$ob[media]."</label></div>";
+								print "<div class='checkbox'><label><input name=media_id[] type=checkbox value=".$ob['media_id']."> ".$ob['media']."</label></div>";
 							}
 						}
 						?>
@@ -389,8 +389,8 @@ else{return true;}
                 	<label class="control-label col-sm-3">รูปแบบการจัดโต๊ะ:</label>
                     <div class="col-sm-9">
                     	<?php
-						$rsTable = mysql_query("select * from meetingroom_tableformat where tf_active = '1' and tf_trash = '0' order by tf_id asc");
-						while($obTable = mysql_fetch_assoc($rsTable)){
+						$rsTable = mysqli_query($mysqli, "select * from meetingroom_tableformat where tf_active = '1' and tf_trash = '0' order by tf_id asc");
+						while($obTable = mysqli_fetch_assoc($rsTable)){
 							if($obTable["tf_id"] == $booking2["tf_id"]){
 								echo '<div class="radio"><label><input type="radio" value="'.$obTable['tf_id'].'" name="tf_id" checked required> '.$obTable['tf_title'].' <a href="'.$livesite.'bookingroom/img/room/'.$obTable['tf_photo'].'" target="new"><i class="glyphicon glyphicon-picture"></i> ตัวอย่าง</a></label></div>';
 							}else{
@@ -423,12 +423,12 @@ else{return true;}
                     	<?php
 			   			$sql="select * from room_condition_charges
 			   			order by id asc";
-			   			$rs=mysql_query($sql);
-			   			while($ob=mysql_fetch_array($rs)){
+			   			$rs=mysqli_query($mysqli, $sql);
+			   			while($ob=mysqli_fetch_array($rs)){
 							if($ob['id'] == trim($condition["0"])){						
-								print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."' checked> ".$ob[name]."</label></div>";
+								print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."' checked> ".$ob['name']."</label></div>";
 							}else{
-								print "<div class='radio'><label><input name='condition' type='radio' value='".$ob[id]."'> ".$ob[name]."</label></div>";
+								print "<div class='radio'><label><input name='condition' type='radio' value='".$ob['id']."'> ".$ob['name']."</label></div>";
 							}								
 			   			}
 						echo "<div id='newCondition'><input type='text' name='condition2' size='60' class='form-control' maxlength='200' required disabled placeholder='ระบุเหตุผล'></div>";

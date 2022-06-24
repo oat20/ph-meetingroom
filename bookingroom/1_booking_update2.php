@@ -2,7 +2,8 @@
 session_start();
 #$u=$_SESSION["u"];
 include"config.php";
-include"connect/connect.php";
+//include"connect/connect.php";
+require_once './mysqli_connect.php';
 include"inc/function.php";
 include("inc/checksession.inc.php");
 ?>
@@ -25,7 +26,7 @@ $date_amount = date_num($today, $startdate);
 if($date_amount >= 3){
 
 //tb booking
-$booking = mysql_query("update meetingroom_userq set
+$booking = mysqli_query($mysqli, "update meetingroom_userq set
 uname = '$_POST[uname]',
 phone = '$_POST[tel]',
 DeID = '$_POST[DeID]',
@@ -47,20 +48,20 @@ uq_owner = '$_POST[uq_owner]'
 where uq_id = '$_POST[uq_id]'");
 
 //tb snack
-mysql_query("delete from meetingroom_snack2
+mysqli_query($mysqli, "delete from meetingroom_snack2
 	where uq_id = '$_POST[uq_id]'");
 	
 if($_POST["food_id"] != ""){
 		
 				foreach($_POST["food_id"] as $kk=>$vv){
 					$sql5="insert into meetingroom_snack2 (uq_id, food_id) values ('$_POST[uq_id]','$vv')";
-					$rs5=mysql_query($sql5);
+					$rs5=mysqli_query($mysqli, $sql5);
 				}
 			
 			}
 
 //tb media
-mysql_query("delete from meetingroom_mediarelation
+mysqli_query($mysqli, "delete from meetingroom_mediarelation
 	where uq_id = '$_POST[uq_id]'");
 	
 				if($_POST["media_id"] != ""){
@@ -68,13 +69,13 @@ mysql_query("delete from meetingroom_mediarelation
 				foreach($_POST["media_id"] as $kk=>$vv)
 				{
 					$sql4="insert into meetingroom_mediarelation (uq_id,media_id) values ('$_POST[uq_id]','$vv')";
-					$rs4=mysql_query($sql4);
+					$rs4=mysqli_query($mysqli, $sql4);
 				}
 				
 				}
 
 //tb booking log
-$log = mysql_query("insert into meetingroom_userq_statusinfo (si_id,
+$log = mysqli_query($mysqli, "insert into meetingroom_userq_statusinfo (si_id,
 uq_id,
 si_userstamp,
 si_datestamp,
@@ -85,7 +86,7 @@ values ('',
 				'".date("Y-m-d H:i:s")."',
 				'".$_SERVER['REMOTE_ADDR']."')");
 				
-				$log2 = mysql_query("insert into meetingroom_userq_log values ('',
+				$log2 = mysqli_query($mysqli, "insert into meetingroom_userq_log values ('',
 				'$_POST[uq_id]',
 				'".date("Y-m-d H:i:s")."',
 				'".$_SERVER['REMOTE_ADDR']."',

@@ -2,13 +2,14 @@
 session_start();
 
 include"../config.php";
-include "../connect/connect.php";
+//include "../connect/connect.php";
+require_once '../mysqli_connect.php';
 include "function.php";
 
 $ID = $_GET["keyID"];
 ?>
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title><?php echo $sitename; ?></title>
@@ -26,9 +27,9 @@ $ID = $_GET["keyID"];
         	<?php
        		$cmd = "select * from meetingroom_userq
 	   		where uq_id = '$ID'";
-			$result = mysql_query($cmd);
-			$row=mysql_fetch_array($result);
-			$condition = explode("/",$row[book_condition]);
+			$result = mysqli_query($mysqli, $cmd);
+			$row=mysqli_fetch_array($result);
+			$condition = explode("/",$row['book_condition']);
 			?>
         	<div class="panel panel-default">
             	<div class="panel-heading clearfix">
@@ -43,21 +44,21 @@ $ID = $_GET["keyID"];
                 <div class="panel-body">
 
 		<blockquote>
-  			<p class="lead"><?php print $row[title]; ?></p>
+  			<p class="lead"><?php print $row['title']; ?></p>
 		</blockquote>
       <table width="100%" class="table table-bordered table-striped">
       	<tbody>
       	<tr>
         	<td class="text-right"><strong>วันที่</strong></td>
-            <td><?php print dateThai($row[Dater]); ?> เวลา <?php print $row["time_in"]." - ".$row["time_out"]; ?></td>
+            <td><?php print dateThai($row['Dater']); ?> เวลา <?php print $row["time_in"]." - ".$row["time_out"]; ?></td>
         </tr>
         <tr>
         	<td class="text-right"><strong>ห้อง</strong></td>
             <td>
             	<?php
-				$sql2 = mysql_query("select * from meetingroom_croom
+				$sql2 = mysqli_query($mysqli, "select * from meetingroom_croom
 				where cr_id = '$row[cr_id]'");
-				$ob2 = mysql_fetch_assoc($sql2);
+				$ob2 = mysqli_fetch_assoc($sql2);
 				echo '<div class="activity2" style="background-color:'.$ob2["color"].'">'.$ob2["name"].' ('.$ob2["location"].')</div>';
 				?>
             </td>
@@ -65,15 +66,15 @@ $ID = $_GET["keyID"];
         <tr>
         	<td valign="top" class="text-right"><strong>ผู้จอง</strong></td>
             <td><?php
-				$org = mysql_query("select * from organization
+				$org = mysqli_query($mysqli, "select * from organization
 				where DeID = '$row[DeID]'");
-				$org2 = mysql_fetch_assoc($org);
+				$org2 = mysqli_fetch_assoc($org);
 				echo $row["uname"].'<br>'.$org2["Fname"].' โทร. '.$row["phone"]; 
 				?></td>
         </tr>
         <tr>
         	<td class="text-right"><strong>จำนวนผู้ใช้</strong></td>
-            <td><?php print $row[detail]; ?> ท่าน</td>
+            <td><?php print $row['detail']; ?> ท่าน</td>
         </tr>
         <tr>
           <td valign="top" class="text-right"><strong>อาหารว่าง</strong></td>
@@ -83,9 +84,9 @@ $ID = $_GET["keyID"];
 			where meetingroom_snack.food_id = meetingroom_snack2.food_id
 			and meetingroom_snack2.uq_id = '$row[uq_id]'
 			order by meetingroom_snack.food_id asc";
-			$rs3=mysql_query($cmd3);
-			while($ob3=mysql_fetch_array($rs3)){
-				print '<i class="fa fa-check-circle" aria-hidden="true"></i> '.$ob3[food]."<br/>";
+			$rs3=mysqli_query($mysqli, $cmd3);
+			while($ob3=mysqli_fetch_array($rs3)){
+				print '<i class="fa fa-check-circle" aria-hidden="true"></i> '.$ob3['food']."<br/>";
 			}
 			echo $row['uq_snacknote'];
 			?>
@@ -99,9 +100,9 @@ $ID = $_GET["keyID"];
 			where meetingroom_media.media_id=meetingroom_mediarelation.media_id
 			and meetingroom_mediarelation.uq_id='$row[uq_id]'
 			order by meetingroom_media.media_id asc";
-			$rs4=mysql_query($cmd4);
-			while($ob4=mysql_fetch_array($rs4)){
-				print '<i class="fa fa-check-circle" aria-hidden="true"></i> '.$ob4[media]."<br/>";
+			$rs4=mysqli_query($mysqli, $cmd4);
+			while($ob4=mysqli_fetch_array($rs4)){
+				print '<i class="fa fa-check-circle" aria-hidden="true"></i> '.$ob4['media']."<br/>";
 			}
 		  	?>
           </td>
@@ -110,9 +111,9 @@ $ID = $_GET["keyID"];
         	<th class="text-right">รูปแบบการจัดโต๊ะ</th>
             <td>
             	<?php
-				$sqlTable = mysql_query("select * from meetingroom_tableformat
+				$sqlTable = mysqli_query($mysqli, "select * from meetingroom_tableformat
 				where tf_id = '$row[tf_id]'");
-				$obTable = mysql_fetch_assoc($sqlTable);
+				$obTable = mysqli_fetch_assoc($sqlTable);
 				echo $obTable["tf_title"];
 				?>
                 </ul>
@@ -136,18 +137,18 @@ $ID = $_GET["keyID"];
           <?php
 		  $sql5="select * from room_condition_charges
 		  where id = '$condition[0]'";
-		  $rs5=mysql_query($sql5);
-		  $ob5=mysql_fetch_array($rs5);
-		  print '<strong>'.$ob5[name]."</strong><br/>".$condition[1];
+		  $rs5=mysqli_query($mysqli, $sql5);
+		  $ob5=mysqli_fetch_array($rs5);
+		  print '<strong>'.$ob5['name']."</strong><br/>".$condition[1];
 		  ?>
           </td>
         </tr>
         <tr>
           <td class="text-right"><strong>สถานะภาพ</strong></td>
           <td><?php 
-		  	$sql6 = mysql_query("select * from book_status
+		  	$sql6 = mysqli_query($mysqli, "select * from book_status
 			where sta_id = '$row[status1]'");
-			$ob6 = mysql_fetch_assoc($sql6);
+			$ob6 = mysqli_fetch_assoc($sql6);
 			echo $ob6["sta"];
 		  ?></td>
         </tr>

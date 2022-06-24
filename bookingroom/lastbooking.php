@@ -56,7 +56,16 @@ a:active {
 	  <?php
 		$a=1;
 		while($ob2=mysqli_fetch_array($rs2)){
-			$btnCancelDisable = (strtotime($ob2['Dater']) > strtotime($today)) ? "" : "disabled=\"disabled\"";
+
+			if(strtotime($ob2['Dater']) > strtotime($today)){
+				$btnCancelDisable = '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"
+					data-refid="'.$ob2['uq_id'].'"
+					data-date="'.dateThai($ob2['Dater']).' '.$ob2['time_in'].' - '.$ob2['time_out'].'"
+					data-title="'.$ob2['title'].'"
+					data-room="'.$ob2['r_name'].'"><i class="fa fa-ban fa-fw" aria-hidden="true"></i> ยกเลิกการจอง</button>';
+			}else{
+				$btnCancelDisable = '';
+			}
 			?>
       <tr bgcolor="#e9e9e9">      	
         <td><?php echo $ob2["uq_id"];?></td>
@@ -81,7 +90,7 @@ a:active {
         	</div>
          </td>
 		 <td>
-			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal" <?php echo $btnCancelDisable;?>><i class="fa fa-ban fa-fw" aria-hidden="true"></i> ยกเลิก</button>
+			<?php echo $btnCancelDisable;?>
 		 </td>
 	  </tr>
 	  <?php

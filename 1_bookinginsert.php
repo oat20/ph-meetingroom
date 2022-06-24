@@ -3,7 +3,8 @@ ob_start();
 
 session_start();
 include"bookingroom/config.php";
-include"bookingroom/inc/checksession.inc.php";
+//include"bookingroom/inc/checksession.inc.php";
+require_once './bookingroom/mysqli_connect.php';
 include"bookingroom/connect/connect.php";
 include"bookingroom/inc/function.php";
 include"bookingroom/inc/function2.php";
@@ -16,11 +17,11 @@ $startdate = $_POST["booking_y"].'-'.$_POST["booking_m"].'-'.$_POST["booking_d"]
 $bootime=$_POST['sendTime1'];
 $title=$_POST["title"];
 $text3=$_REQUEST["text3"];
-$media_id=$_REQUEST[media_id];
-$optionss=$_REQUEST[optionss];
-$food_id=$_POST[food_id];
-$condition=$_POST[condition];
-$condition2=$_POST[condition2];
+$media_id=$_REQUEST['media_id'];
+$optionss=$_REQUEST['optionss'];
+$food_id=$_POST['food_id'];
+$condition=$_POST['condition'];
+$condition2=$_POST['condition2'];
 
 include("bookingroom/navbar-inc.php");
 ?>
@@ -51,8 +52,8 @@ include("bookingroom/navbar-inc.php");
 			'$_POST[sendTime2]' >= time_in
 			OR  '$_POST[sendTime2]' >= time_out
 			)";
-		$rs=mysql_query($sql);
-		$numrow=mysql_num_rows($rs);
+		$rs=mysqli_query($mysqli, $sql);
+		$numrow=mysqli_num_rows($rs);
 		
 		if($numrow==0){
 			
@@ -107,14 +108,14 @@ include("bookingroom/navbar-inc.php");
 				'$_SESSION[u]',
 				'$_POST[uq_snacknote]',
 				'$_POST[uq_owner]')";
-				$rs=mysql_query($sql2);
+				$rs=mysqli_query($mysqli, $sql2);
 			
 				//อาหารว่าง
 				if($food_id != ""){
 				foreach($food_id as $kk=>$vv)
 				{
 					$sql5="insert into meetingroom_snack2 (uq_id, food_id) values ('$maxid','$vv')";
-					$rs5=mysql_query($sql5);
+					$rs5=mysqli_query($mysqli, $sql5);
 				}
 				}
 			
@@ -123,12 +124,12 @@ include("bookingroom/navbar-inc.php");
 				foreach($media_id as $kk=>$vv)
 				{
 					$sql4="insert into meetingroom_mediarelation (uq_id,media_id) values ('$maxid','$vv')";
-					$rs4=mysql_query($sql4);
+					$rs4=mysqli_query($mysqli, $sql4);
 				}
 				}
 				
 				//book status
-				$sql6 = mysql_query("insert into meetingroom_userq_statusinfo values ('".random_ID2('5','2')."',
+				$sql6 = mysqli_query($mysqli, "insert into meetingroom_userq_statusinfo values ('".random_ID2('5','2')."',
 				'$maxid',
 				'1',
 				'$_SESSION[u]',
@@ -136,7 +137,7 @@ include("bookingroom/navbar-inc.php");
 				'".$_SERVER['REMOTE_ADDR']."')");
 				
 				//booking log
-				$log = mysql_query("insert into meetingroom_userq_log values ('',
+				$log = mysqli_query($mysqli, "insert into meetingroom_userq_log values ('',
 				'$maxid',
 				'".date("Y-m-d H:i:s")."',
 				'".$_SERVER['REMOTE_ADDR']."',
@@ -162,11 +163,11 @@ include("bookingroom/navbar-inc.php");
 			print "<th>รายการ</th>";
 			print "<th>ผู้จอง</th>";
 			print "</tr>";
-			while($ob=mysql_fetch_array($rs)){
+			while($ob=mysqli_fetch_array($rs)){
 				print'<tr bgcolor="#ececec">';
-    			print"<td>".dateThai($ob[Dater])."<br/>".$ob[time_in]." - ".$ob[time_out]."</td>";
-				print"<td>".$ob[title]."</td>";
-				print'<td>'.$ob[uname].'<br/>'.$ob[Fname].'<br/>โทร. '.$ob[email].'</td>';
+    			print"<td>".dateThai($ob['Dater'])."<br/>".$ob['time_in']." - ".$ob['time_out']."</td>";
+				print"<td>".$ob['title']."</td>";
+				print'<td>'.$ob['uname'].'<br/>'.$ob['Fname'].'<br/>โทร. '.$ob['email'].'</td>';
     			print"</tr>";
 			}
 			print"</table>";

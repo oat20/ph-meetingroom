@@ -8,7 +8,6 @@ function booking() {
 }
 </script>
 <style type="text/css">
-<!--
 #Layer1 {
 	position:absolute;
 	left:6px;
@@ -47,7 +46,6 @@ a:active {
 .style20 {
 	font-size: 14px;
 }
--->
 </style>
 <style type="text/css">
 .mouseOut {

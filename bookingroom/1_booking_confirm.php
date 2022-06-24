@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <style type="text/css">
-<!--
 #Layer1 {
 	position:absolute;
 	left:6px;
@@ -35,7 +34,6 @@ a:active {
 	height:158px;
 	z-index:12;
 }
--->
 </style>
 </head>
 
@@ -47,8 +45,8 @@ a:active {
 		$sql4="select *, DATE_FORMAT(Dater, '%d/%m/%Y') as booking_date  
 		from meetingroom_userq
 		where uq_id = '$_GET[uq_id]'";
-		$rs4=mysql_query($sql4);
-		$ob4=mysql_fetch_assoc($rs4);
+		$rs4=mysqli_query($mysqli, $sql4);
+		$ob4=mysqli_fetch_assoc($rs4);
 		$condition = explode("/",$ob4["book_condition"]);
 	?>
 	<table border="0" class="table table-striped">
@@ -57,9 +55,9 @@ a:active {
         	<td><strong>ผู้จอง:</strong></td>
             <td>
 				<?php
-				$org = mysql_query("select * from organization
+				$org = mysqli_query($mysqli, "select * from organization
 				where DeID = '$ob4[DeID]'");
-				$org2 = mysql_fetch_assoc($org);
+				$org2 = mysqli_fetch_assoc($org);
 				echo $ob4["uname"].'<br>'.$org2["Fname"].' โทร. '.$ob4["phone"]; 
 				?>
             </td>
@@ -76,10 +74,10 @@ a:active {
 	  	<td><strong>ขอใช้ห้อง:</strong></td>
 		<td>
 			<?php
-			$croom = mysql_query("select * from meetingroom_croom
+			$croom = mysqli_query($mysqli, "select * from meetingroom_croom
 			inner join meetingroom_tableformat on (meetingroom_croom.tf_id = meetingroom_tableformat.tf_id)
 			where cr_id = '$ob4[cr_id]'");
-			$croom2 = mysql_fetch_assoc($croom);
+			$croom2 = mysqli_fetch_assoc($croom);
 			echo $croom2["name"].' ('.$croom2["tf_title"].')';
             ?>
         </td>
@@ -89,9 +87,9 @@ a:active {
 		<td>
         	<dl class="dl-horizontal">
 			<?php
-			$objective = mysql_query("select * from meetingroom_objective
+			$objective = mysqli_query($mysqli, "select * from meetingroom_objective
 			where ob_id = '$ob4[ob_id]'");
-			$objective2 = mysql_fetch_assoc($objective);
+			$objective2 = mysqli_fetch_assoc($objective);
 			echo '<dt>'.$objective2["ob_title"].'</dt>
 				<dd>'.$ob4["title"].'</dd>'; 
 			?>
@@ -111,11 +109,11 @@ a:active {
 		<td>
         	<ul class="list-inline">
 		<?php
-		$snack = mysql_query("select * from meetingroom_snack
+		$snack = mysqli_query($mysqli, "select * from meetingroom_snack
 		inner join meetingroom_snack2 on (meetingroom_snack.food_id = meetingroom_snack2.food_id)
 		where meetingroom_snack2.uq_id = '$ob4[uq_id]'
 		order by meetingroom_snack.food_id asc");
-		$snack2 = mysql_fetch_assoc($snack);
+		$snack2 = mysqli_fetch_assoc($snack);
 		echo '<li>&raquo; '.$snack2["food"].'</li>'; 
 		?>
         	</ul>
@@ -127,11 +125,11 @@ a:active {
 		<td>
         	<ul class="list-inline">
 			<?php
-			$media = mysql_query("select * from meetingroom_media
+			$media = mysqli_query($mysqli, "select * from meetingroom_media
 			inner join meetingroom_mediarelation on (meetingroom_media.media_id = meetingroom_mediarelation.media_id)
 			where meetingroom_mediarelation.uq_id = '$ob4[uq_id]'
 			order by meetingroom_media.media_id asc");
-			while($media2 = mysql_fetch_assoc($media)){
+			while($media2 = mysqli_fetch_assoc($media)){
 			   echo '<li>&raquo; '.$media2["media"].'</li>';
 			}
 			?>
@@ -142,9 +140,9 @@ a:active {
     	<th>รูปแบบการจัดโต๊ะ:</th>
         <td>
         	<?php
-			$sqlTable = mysql_query("select * from meetingroom_tableformat
+			$sqlTable = mysqli_query($mysqli, "select * from meetingroom_tableformat
 			where tf_id = '$ob4[tf_id]'");
-			$obTable = mysql_fetch_assoc($sqlTable);
+			$obTable = mysqli_fetch_assoc($sqlTable);
 			echo $obTable["tf_title"];
 			?>
         </td>
@@ -164,9 +162,9 @@ a:active {
 			<td><strong>เงื่อนไขการใช้:</strong></td>
 			<td>
 				<?php
-				$condition2 = mysql_query("select * from room_condition_charges
+				$condition2 = mysqli_query($mysqli, "select * from room_condition_charges
 				where id = '".trim($condition["0"])."'");
-				$condition3 = mysql_fetch_assoc($condition2);
+				$condition3 = mysqli_fetch_assoc($condition2);
 				echo $condition3["name"].' '.$condition["1"];
 				?>
             </td>
