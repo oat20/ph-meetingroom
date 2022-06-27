@@ -4,6 +4,7 @@ session_start();
 include"bookingroom/config.php";
 require_once './bookingroom/mysqli_connect.php';
 //include"bookingroom/connect/connect.php";
+require_once './bookingroom/inc/function.php';
 
 $login_username=$_POST["login_username"];
 $login_password=$_POST["login_password"];
@@ -83,7 +84,7 @@ if($action == "login")
 						$message="<p><table>";
 						$message.="<tr>";
 						$message.="<td><span>Username ของคุณคือ:</td>";
-						$message.="<td class=fontred>".$ob[username]."</td>";
+						$message.="<td class=fontred>".$ob['username']."</td>";
 						$message.="</tr>";
 						$message.="<tr>";
 						$message.="<td>Password ของคุณคือ:</td>";
@@ -115,13 +116,38 @@ if($action == "login")
 					}
 		}
 		
+}else if($action === 'login2'){
+	$email = mysqli_real_escape_string($mysqli, $_POST['email']);
+	$activation = mysqli_real_escape_string($mysqli, random_ID(2));
+
+	$sql = mysqli_query($mysqli, "select * from jos_users where email like '$email'");
+	if(mysqli_num_rows($sql) > 0){
+		mysqli_query($mysqli, "update jos_users set
+			activation = '$activation'
+			where email like '$email'
+		");
+	}else{
+		mysqli_query($mysqli, "insert into jos_users (name,
+			email,
+			usertype,
+			registerDate,
+			activation) 
+			values ('$email',
+			'$email',
+			'1',
+			CURRENT_TIMESTAMP(),
+			'$activation')
+		");
+	}
 }
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="keywords" content="<?=$sitename;?>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo $sitename;?></title>
 <?php include("bookingroom/css-inc.php");?>
 <!--<link href="bookingroom/css/login.css" rel="stylesheet" type="text/css">
@@ -142,29 +168,45 @@ if($action == "login")
 
 	<div class="row">
     
-    	<div class="col-sm-6">
+    	<div class="col-xs-12 col-sm-12 col-md-6">
         	<?php include("practice/view.php");?>
         </div>
         
-    	<div class="col-sm-6">
+    	<div class="col-xs-12 col-sm-12 col-md-6">
         
-        	<div class="panel panel-primary">
+        	<!--<div class="panel panel-primary">
             	<div class="panel-heading">
                 	<h3 class="panel-title"><i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ</h3>
                 </div>
                 <div class="panel-body">
                 <?php
-				echo $msgalert;
+				/*echo $msgalert;
 				
 				$mode = $_GET['mode'];
 				switch($mode){
 					case "1" : include("bookingroom/forgetpw.htm"); break;
 					//case "2"; include("bookingroom/register.php"); break;
 					default : include("bookingroom/login.php"); break;
-				}
+				}*/
 				?>
                 </div>
-            </div>
+            </div>-->
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fa fa-sign-in fa-fw" aria-hidden="true"></i> เข้าสู่ระบบ</h3>
+				</div>
+				<div class="panel-body">
+					<form id="formlogin2" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+						<div class="form-group">
+							<label>ชื่อผู้ใช้ หรืออีเมลที่ลงทะเบียนไว้</label>
+							<input type="email" class="form-control" placeholder="MU Email" name="email" required>
+						</div>
+						<input type="hidden" name="action" value="login2">
+						<button type="submit" class="btn btn-primary btn-block">ถัดไป <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i></button>
+					</form>
+				</div>
+			</div>
         
         </div><!--col-12-->
     </div><!--row-->
@@ -176,6 +218,21 @@ include("bookingroom/js-inc.php");
 ?>
 <script>
 $(document).ready(function() {
+
+	$('#formlogin2').bootstrapValidator({
+		fields: {
+			email: {
+                //message: 'The username is not valid',
+                validators: {                    
+                    remote: {
+						type: 'post',
+                        url: './bookingroom/inc/bootstrapvalidator/mu-emailformat.php',
+                        //message: 'รูปแบบอีเมลไม่ถูกต้อง (@mahidol.ac.th เท่านั้น)'
+                    }
+                }
+            }
+		}
+	});
 	
 	$('#formLogin').bootstrapValidator({
 	});

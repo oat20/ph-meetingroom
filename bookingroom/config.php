@@ -108,4 +108,11 @@ $cf_https = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 	); //1=ยืนยัน,อนุมัติ 2=รอ 99=ยกเลิก
 	
 	#$edu_level=array("ปริญญาตรี","ปริญญาโท","ปริญญาเอก");
+
+	ini_set('short_open_tag', 'on');
+
+	//mail server
+	ini_set('SMTP', 'mumail.mahidol.ac.th');
+	ini_set('smtp_port', 25);
+	ini_set('sendmail_from', 'noreply@ph.mahidol.ac.th');
 ?>
