@@ -1,6 +1,6 @@
 <!--<div id="header2">-->
 <?php
-$sql="select * from jos_users 
+/*$sql="select * from jos_users 
 inner join organization on (jos_users.DeID=organization.DeID)
 where jos_users.id = '$_SESSION[u]'";
 $rs=mysqli_query($mysqli, $sql);
@@ -12,7 +12,16 @@ print '<li class="dropdown">
 					<li role="separator" class="divider"></li>
         			<li><a href="'.$livesite.'admin/profile.php">เปลี่ยนรหัสผ่าน</a></li>
 				</ul>
-	</li>'; 
+	</li>';*/
+	
+	print '<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> '.$_SESSION['ses_email'].' <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="'.$livesite.'mybooking.php">ประวัติการจอง</a></li>
+					<li role="separator" class="divider"></li>
+        			<li><a href="'.$livesite.'admin/profile.php">เปลี่ยนรหัสผ่าน</a></li>
+				</ul>
+	</li>';
 ?> 
 <li><a href="<?php echo $livesite;?>bookingroom/logout.php" onClick="return confirm('ยืนยันการออกจากระบบ')"><i class="glyphicon glyphicon-log-out"></i> ออกจากระบบ</a></li>
 <!--</div>

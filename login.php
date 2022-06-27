@@ -14,7 +14,8 @@ if($action == "login")
 		#if($_SESSION['captcha'] != $_POST['capt'] || $_SESSION['captcha']=='BADCODE'){
 			#$msgalert="อักษรในภาพไม่ถูต้อง";
 		#}else{
-				$sql_login = "select jos_users.id, jos_users.DeID, jos_users.usertype
+				$sql_login = "select jos_users.id, jos_users.DeID, jos_users.usertype,
+					jos_users.email
 				from jos_users
 				inner join user_type on (jos_users.usertype = user_type.id)
 				inner join organization on (jos_users.DeID = organization.DeID)
@@ -35,6 +36,7 @@ if($action == "login")
 						//session_register("ses_deid"); //user department
 						$_SESSION['u'] = $u;
 						$_SESSION['ses_deid'] = $ses_deid;
+						$_SESSION['ses_email'] = $object_login['email'];
 						$_SESSION["userType"] = $object_login["usertype"]; //usertype
 						
 						$datelog = date("Y-m-d H:i:s");

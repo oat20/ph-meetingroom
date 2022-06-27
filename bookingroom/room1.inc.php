@@ -289,23 +289,6 @@ else{return true;}
                 		</div>
                     </div>
                 </div>
-
-				<div class="form-group">
-					<label class="control-label col-sm-3">รูปแบบการใช้งาน</label>
-					<div class="col-sm-9">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" value="YES" name="onsite" checked> On Site
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" value="YES" name="online"> On Line
-							</label>
-							<span class="help-block" id="onlineNote" style="display: none;">โปรดระบุความต้องการและ Platform ที่ต้องการใช้ในส่วนรายละเอียดเพิ่มเติม</span>
-						</div>
-					</div>
-				</div>
                 
                 <div class="form-group">
                 	<label class="control-label col-sm-3">วัตถุประสงค์เพื่อ:</label>
