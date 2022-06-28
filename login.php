@@ -174,30 +174,30 @@ if($action == "login")
         
     	<div class="col-xs-12 col-sm-12 col-md-6">
         
-        	<!--<div class="panel panel-primary">
+        	<div class="panel panel-primary">
             	<div class="panel-heading">
                 	<h3 class="panel-title"><i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ</h3>
                 </div>
                 <div class="panel-body">
                 <?php
-				/*echo $msgalert;
+				echo $msgalert;
 				
 				$mode = $_GET['mode'];
 				switch($mode){
 					case "1" : include("bookingroom/forgetpw.htm"); break;
 					//case "2"; include("bookingroom/register.php"); break;
 					default : include("bookingroom/login.php"); break;
-				}*/
+				}
 				?>
                 </div>
-            </div>-->
+            </div>
 
-			<div class="panel panel-primary">
+			<!--<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title"><i class="fa fa-sign-in fa-fw" aria-hidden="true"></i> เข้าสู่ระบบ</h3>
 				</div>
 				<div class="panel-body">
-					<form id="formlogin2" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+					<form id="formlogin2" action="<?php //echo $_SERVER['PHP_SELF'];?>" method="POST">
 						<div class="form-group">
 							<label>ชื่อผู้ใช้ หรืออีเมลที่ลงทะเบียนไว้</label>
 							<input type="email" class="form-control" placeholder="MU Email" name="email" required>
@@ -206,7 +206,7 @@ if($action == "login")
 						<button type="submit" class="btn btn-primary btn-block">ถัดไป <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i></button>
 					</form>
 				</div>
-			</div>
+			</div>-->
         
         </div><!--col-12-->
     </div><!--row-->
