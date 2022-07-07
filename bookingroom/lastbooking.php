@@ -62,7 +62,7 @@ a:active {
 					data-refid="'.$ob2['uq_id'].'"
 					data-date="'.dateThai($ob2['Dater']).' '.$ob2['time_in'].' - '.$ob2['time_out'].'"
 					data-title="'.$ob2['title'].'"
-					data-room="'.$ob2['r_name'].'"><i class="fa fa-ban fa-fw" aria-hidden="true"></i> ยกเลิกการจอง</button>';
+					data-room="'.$ob2['r_name'].'">ต้องการยกเลิกการจอง <i class="fa fa-question fa-fw" aria-hidden="true"></i></button>';
 			}else{
 				$btnCancelDisable = '';
 			}
