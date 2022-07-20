@@ -57,7 +57,7 @@ a:active {
 		$a=1;
 		while($ob2=mysqli_fetch_array($rs2)){
 
-			if(strtotime($ob2['Dater']) > strtotime($today)){
+			if(strtotime($ob2['Dater'].' '.$ob2['time_in']) > strtotime(date("Y-m-d H:i"))){
 				$btnCancelDisable = '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"
 					data-refid="'.$ob2['uq_id'].'"
 					data-date="'.dateThai($ob2['Dater']).' '.$ob2['time_in'].' - '.$ob2['time_out'].'"
