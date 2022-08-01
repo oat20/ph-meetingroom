@@ -4,7 +4,7 @@ include("../bookingroom/inc/function.php");
 require_once '../bookingroom/mysqli_connect.php';
 include('../mailer/mail.php');
 //include('../bookingroom/css-inc.php');
-	$tm=date('Y-m-d');
+	$tm=date('Y-m-d H:i:s');
 	//send email
 	$body=file_get_contents($livesite.'directmail/weekagenda.php?tm='.$tm);
 	$rs = mysqli_query($mysqli, "select * from mail_contact_it order by email asc");
@@ -18,7 +18,7 @@ include('../mailer/mail.php');
 //line notify
 $qEvent = mysqli_query($mysqli, "select *
 	from meetingroom_userq
-	where Dater = '$tm'
+	where concat(Dater,' ',time_in,':00') = '$tm'
 	and uq_cancel like 'No'
 ");
 $rowEvent = mysqli_num_rows($qEvent);
