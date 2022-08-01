@@ -18,7 +18,7 @@ include('../mailer/mail.php');
 //line notify
 $qEvent = mysqli_query($mysqli, "select *
 	from meetingroom_userq
-	where concat(Dater,' ',time_in,':00') = '$tm'
+	where concat(Dater,' ',time_in,':00') >= '$tm'
 	and uq_cancel like 'No'
 ");
 $rowEvent = mysqli_num_rows($qEvent);
