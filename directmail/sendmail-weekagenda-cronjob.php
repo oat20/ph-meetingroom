@@ -33,32 +33,35 @@ if($rowEvent > 0){
 		LIMIT 1");
 	$rs_lastbooking = mysqli_fetch_assoc($sql_lastbooking);
 	$lastbooking = date('d/m/Y', strtotime($rs_lastbooking['Dater'])).' '.$rs_lastbooking['time_in'].' - '.$rs_lastbooking['time_out'].' @'.$rs_lastbooking['name'].' - '.$rs_lastbooking['title'];
-	
-	define('LINE_API',"https://notify-api.line.me/api/notify");
-	
-	function notify_message($message,$token){
-	 $queryData = array('message' => $message);
-	 $queryData = http_build_query($queryData,'','&');
-	 $headerOptions = array( 
-			 'http'=>array(
-				'method'=>'POST',
-				'header'=> "Content-Type: application/x-www-form-urlencoded\r\n"
-						  ."Authorization: Bearer ".$token."\r\n"
-						  ."Content-Length: ".strlen($queryData)."\r\n",
-				'content' => $queryData
-			 ),
-	 );
-	 $context = stream_context_create($headerOptions);
-	 $result = file_get_contents(LINE_API,FALSE,$context);
-	 $res = json_decode($result);
-	 return $res;
-	}
- 
+	 
+	//send line notify
 	$token = "97PZQvmxrLBM7jvPlCwMZ5yq6msIpMQCMtTpljfoqIP"; //ใส่Token ที่copy เอาไว้
 	
 	$str = "แจ้งเตือนใช้ห้องประชุม: ".$lastbooking." ".$livesite.'directmail/weekagenda.php?tm='.date('Y-m-d', strtotime($tm.' -1 day'));
 	
-	notify_message($str,$token);
+	$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL,"https://notify-api.line.me/api/notify");
+curl_setopt($ch, CURLOPT_POST, 1);
+// In real life you should use something like:
+curl_setopt($ch, CURLOPT_POSTFIELDS, 
+          http_build_query(
+			array(
+				'message' => $str
+			)));
+
+// Receive server response ...
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/x-www-form-urlencoded',
+		'Authorization: Bearer '.$token
+	));
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+$server_output = curl_exec($ch);
+
+curl_close ($ch);
 	
 }
 //line notify
