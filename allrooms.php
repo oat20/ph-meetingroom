@@ -58,6 +58,7 @@ include("bookingroom/inc/function.php");
 			  <th>ประเภทห้อง</th>
 			  <th>รูปแบบที่นั่ง</th>
 			  <th colspan="2"><strong>อัตราค่าบำรุงรักษา</strong></th>
+			  <th>หมายเหตุ</th>
 			  <th>Actions</th>
 			  </tr>
             </thead>
@@ -92,6 +93,7 @@ include("bookingroom/inc/function.php");
                 </td>
                 <td>ครึ่งวัน <?php echo number_format($row["cr_price_halfday"]);?> บาท</td>
                 <td>เต็มวัน <?php echo number_format($row["cr_price_fullday"]);?> บาท</td>
+				<td><?php echo $row['cr_note'];?></td>
                 	<td>
                     	<div class="btn-group">
                         	<a href="room_data.php?keyID=<?php echo $row["cr_id"];?>" class="btn btn-primary"><i class="fa fa-external-link" aria-hidden="true"></i> รายละเอียด</a>
