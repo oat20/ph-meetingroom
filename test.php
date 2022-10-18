@@ -1,44 +1,50 @@
 <?php
-include("bookingroom/config.php");
-include("bookingroom/inc/function.php");
-include("bookingroom/connect/connect.php");
-require('mailer/mail.php');
+//include("bookingroom/config.php");
+//include("bookingroom/inc/function.php");
+//include("bookingroom/connect/connect.php");
+//require('mailer/mail.php');
 
 //line notify
-/*$tm = date('Y-m-d');
-$qEvent = mysql_query("select *
-	from meetingroom_userq
-	where Dater = '$tm'
-");
-$rowEvent = mysql_num_rows($qEvent);
-if($rowEvent > 0){
-	
-	define('LINE_API',"https://notify-api.line.me/api/notify");
-	function notify_message($message,$token){
-	 $queryData = array('message' => $message);
-	 $queryData = http_build_query($queryData,'','&');
-	 $headerOptions = array( 
-			 'http'=>array(
-				'method'=>'POST',
-				'header'=> "Content-Type: application/x-www-form-urlencoded\r\n"
-						  ."Authorization: Bearer ".$token."\r\n"
-						  ."Content-Length: ".strlen($queryData)."\r\n",
-				'content' => $queryData
-			 ),
-	 );
-	 $context = stream_context_create($headerOptions);
-	 $result = file_get_contents(LINE_API,FALSE,$context);
-	 $res = json_decode($result);
-	 return $res;
-	}
- 
-	$token = "97PZQvmxrLBM7jvPlCwMZ5yq6msIpMQCMtTpljfoqIP"; //ใส่Token ที่copy เอาไว้
-	$str = "แจ้งเตือนการจองใช้ห้องประชุม: วัน ".dateThai3(date('Y-m-d'))." Click ".$livesite.'directmail/weekagenda.php?tm='.date('Y-m-d', strtotime($tm.' -1 day'));
-	$res = notify_message($str,$token);
-	
-	
-}*/
+	$token = "BT3b9bLnTnRLQ51PrWezMYcwFl4BXL6D34m6AsaIULS"; //ใส่Token ที่copy เอาไว้
+	$str = "แจ้งเตือนการจองใช้ห้องประชุม: วัน ".date('Y-m-d')." Click directmail/weekagenda.php?tm='".date('Y-m-d');
+	$ch = curl_init();
+	curl_setopt_array($ch,array(
+		CURLOPT_URL=>"https://notify-api.line.me/api/notify",
+		CURLOPT_POST=>true,
+		CURLOPT_POSTFIELDS=>
+          http_build_query(
+			array(
+				'message' => $str
+			)),
+			CURLOPT_RETURNTRANSFER=> true,
+			CURLOPT_HTTPHEADER=> array(
+		'Content-Type: application/x-www-form-urlencoded',
+		'Authorization: Bearer '.$token
+			),
+			CURLOPT_SSL_VERIFYPEER=> false,
+			CURLOPT_SSL_VERIFYHOST=> false
+	));
+
+/*curl_setopt($ch, CURLOPT_URL,"https://notify-api.line.me/api/notify");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 
+          http_build_query(
+			array(
+				'message' => $str
+			)));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/x-www-form-urlencoded',
+		'Authorization: Bearer '.$token
+	));
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);*/
+
+$server_output = curl_exec($ch);
+
+curl_close ($ch);
+		
 //line notify
 
-smtpGmail( 'chakkapan.cha@mahidol.ac.th' , 'ทดสอบ' , 'ทดสอบ' );
+//smtpGmail( 'chakkapan.cha@mahidol.ac.th' , 'ทดสอบ' , 'ทดสอบ' );
 ?>

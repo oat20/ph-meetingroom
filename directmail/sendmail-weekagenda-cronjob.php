@@ -6,10 +6,26 @@ include('../mailer/mail.php');
 //include('../bookingroom/css-inc.php');
 	$tm=date('Y-m-d H:i:s');
 	//send email
-	$body=file_get_contents($livesite.'directmail/weekagenda.php?tm='.$tm);
+	$body=file_get_contents($livesite.'directmail/weekagenda.php?tm='.date('Y-m-d', strtotime($tm.' -1 day')));
+
+$sql2=mysqli_query($mysqli,"SELECT t1.Dater,
+t1.time_in,
+t1.time_out,
+t1.title,
+concat(t2.name,' ',t2.location) as room
+FROM meetingroom_userq AS t1
+INNER JOIN meetingroom_croom AS t2 ON ( t1.cr_id = t2.cr_id )
+WHERE CONCAT( t1.Dater, ' ', t1.time_in, ':00' ) >= CURRENT_TIMESTAMP( )
+AND t1.uq_cancel LIKE 'No'
+ORDER BY t1.Dater, t1.time_in, t1.time_out, CONVERT( CONCAT( t2.name, ' ', t2.location )
+USING tis620 )
+LIMIT 1");
+$rs2=mysqli_fetch_assoc($sql2);
+$mail_subject="PH-Room ".date('d/m/Y',strtotime($rs2['Dater'])).", ".$rs2['time_in']."-".$rs2['time_out']." ".$rs2['title']." ".$rs2['room'];
+
 	$rs = mysqli_query($mysqli, "select * from mail_contact_it order by email asc");
 	while($ob = mysqli_fetch_assoc($rs)){
-		$send = smtpmail($ob['email'], 'รายการจองห้องวันที่ '.dateThai(date('Y-m-d',strtotime($tm.' +1 days'))), $body);
+		$send = smtpmail($ob['email'], $mail_subject, $body);
 	}
 	
 	mysqli_query($mysqli, "insert into mail_contact_itlog (id, dateSent, ipSent) values ('', '".date('Y-m-d H:i:s')."', '".$_SERVER['REMOTE_ADDR']."')");
@@ -18,7 +34,7 @@ include('../mailer/mail.php');
 //line notify
 $qEvent = mysqli_query($mysqli, "select *
 	from meetingroom_userq
-	where concat(Dater,' ',time_in,':00') >= '$tm'
+	where concat(Dater,' ',time_in,':00') >= CURRENT_TIMESTAMP( )
 	and uq_cancel like 'No'
 ");
 $rowEvent = mysqli_num_rows($qEvent);
