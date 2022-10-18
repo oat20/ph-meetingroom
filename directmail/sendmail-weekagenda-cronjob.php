@@ -21,7 +21,7 @@ ORDER BY t1.Dater, t1.time_in, t1.time_out, CONVERT( CONCAT( t2.name, ' ', t2.lo
 USING tis620 )
 LIMIT 1");
 $rs2=mysqli_fetch_assoc($sql2);
-$mail_subject="PH-Room ".date('d/m/Y',strtotime($rs2['Dater'])).", ".$rs2['time_in']."-".$rs2['time_out']." ".$rs2['title']." ".$rs2['room'];
+$mail_subject="PH-Room ".date('d/m/Y',strtotime($rs2['Dater'])).", ".$rs2['time_in']."-".$rs2['time_out']." ".$rs2['room']." ".$rs2['title'];
 
 	$rs = mysqli_query($mysqli, "select * from mail_contact_it order by email asc");
 	while($ob = mysqli_fetch_assoc($rs)){
