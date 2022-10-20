@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
         convert(concat(meetingroom_croom.name,' ',meetingroom_croom.location) using tis620)";
 		$rs2 = mysqli_query($mysqli, $sql2);
 		while($ob2=mysqli_fetch_array($rs2)){
-            $media = '(';
+            $media = '';
 			$qMedia = mysqli_query($mysqli, "select * from meetingroom_mediarelation as t1
 				inner join meetingroom_media as t2 on (t1.media_id = t2.media_id)
 				where t1.uq_id = '$ob2[uq_id]'
@@ -28,13 +28,13 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
 			while($obMedia = mysqli_fetch_assoc($qMedia)){
 				$media.=$obMedia['media'].', ';
 			}
-            $media.=')';
+            $media_display='('.substr($media,'0','-2').')';
             $response['data'][]=array(
                 'dater'=>date('d/m/Y',strtotime($ob2['Dater'])).', '.$ob2["time_in"].'-'.$ob2["time_out"],
                 'title'=>$ob2["title"],
                 'room'=>$ob2['r_name'].' '.$ob2['location'],
                 'contact'=>$ob2['uname'].' '.$ob2["Fname"].' '.$ob2["phone"],
-                'note'=>$ob2['optionss'].' '.$media
+                'note'=>trim($ob2['optionss'].' '.$media_display)
             );
         }
          echo json_encode($response);
